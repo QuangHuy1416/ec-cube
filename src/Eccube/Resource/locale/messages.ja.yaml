@@ -513,6 +513,7 @@ admin.common.charge: 手数料
 # 機能名称
 admin.home: ホーム
 admin.login: ログイン
+admin.link: 棚管理
 
 # ラベル
 admin.home.order_status_title: 注文状況

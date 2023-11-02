@@ -526,6 +526,7 @@ admin.common.charge: Phí thanh toán
 # Menu Items
 admin.home: Home
 admin.login: Đăng nhập
+admin.link: 棚管理
 
 # ラベル
 admin.home.order_status_title: Trạng thái các đơn hàng
