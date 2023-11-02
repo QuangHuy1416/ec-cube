@@ -82,7 +82,6 @@ parameters:
     eccube_csv_import_delimiter: ,
     eccube_csv_import_enclosure: '"'
     eccube_csv_import_escape: \
-    #eccube_link_url: 'http://beta.ssvsports.work/'
     eccube_info_url: 'https://www.ec-cube.net/info/4/'
     eccube_owners_store_url: '%env(ECCUBE_OWNERS_STORE_URL)%'
     eccube_official_site_url: http://ec-cube.vn

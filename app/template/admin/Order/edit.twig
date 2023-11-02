@@ -353,8 +353,11 @@ file that was distributed with this source code.
                                     <div class="d-inline-block"><span class="card-title">{{ 'admin.order.orderer'|trans }}</span></div>
                                 </div>
                                 <div class="col">{% if id %}<span class="mr-5">{% if form.Customer.vars.value is empty %}{{ 'admin.order.non_member'|trans }}{% else %}<a href="{{ url('admin_customer_edit', {'id': form.Customer.vars.value}) }}">{{ form.Customer.vars.value }}</a>{% endif %}</span>
-                                        {{ Order.full_name }} {{ format_address(Order.addr01, Order.addr02, Order.pref, Order.postal_code) }} {{ Order.email }}{% endif %}</div>
+                                  {# {{ Order.full_name }} {{ format_address(Order.addr01, Order.addr02, Order.pref, Order.postal_code) }} {{ Order.email }} #} {% endif %}
+                                </div>
+                                <!--
                                 <div class="col-1 text-right"><a class="d-block" data-toggle="collapse" href="#ordererInfo" aria-expanded="false" aria-controls="ordererInfo"><i class="fa {{ id ? 'fa-angle-down' : 'fa-angle-up' }} fa-lg"></i></a></div>
+                                -->
                             </div>
                         </div>
                         <div class="collapse {{ id ? '' : 'show' }} ec-cardCollapse h-adr" id="ordererInfo">
@@ -381,7 +384,7 @@ file that was distributed with this source code.
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>  
                                 {% endif %}
                                 <div class="row">
                                     <div class="col-6">

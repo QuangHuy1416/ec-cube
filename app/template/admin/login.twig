@@ -21,7 +21,7 @@ file that was distributed with this source code.
                     {{ include('@admin/alert.twig') }}
                     <form name="form1" id="form1" method="post" action="{{ path('admin_login') }}">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        <p><img src="{{ asset('assets/img/logo2.png', 'admin') }}" width="106"></p>
+                        <p><img src="{{ asset('assets/img/small.png', 'admin') }}" width="106"></p>
                         <div class="form-group">
                             {{ form_widget(form.login_id, {'id': 'login_id', 'attr': {'placeholder': 'admin.login.login_id', 'autofocus': true}}) }}
                         </div>
