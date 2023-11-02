@@ -1086,3 +1086,8 @@ Styleguide 11.0
     position: fixed; } }
 
 /*# sourceMappingURL=maps/app.css.map */
+
+.c-headerBar__logo img {
+  width: 50px;
+  height: 50px;
+}
