@@ -48,6 +48,9 @@ parameters:
                 customer_edit:
                     name: admin.customer.customer_registration
                     url: admin_customer_new
+                customer_company:
+                    name: admin.customer.company_registration
+                    url: admin_company_new
         content:
             name: admin.content.contents_management
             icon: fa-file-text-o
