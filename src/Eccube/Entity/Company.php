@@ -18,18 +18,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
-if (!class_exists('\Eccube\Entity\Customer')) {
+if (!class_exists('\Eccube\Entity\Company')) {
     /**
      * Company
      *
      * @ORM\Table(name="dtb_company")
      * @ORM\InheritanceType("SINGLE_TABLE")
      * @ORM\DiscriminatorColumn(name="discriminator_type", type="string", length=255)
-     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\HasLifecycleCallbacks()
      * @ORM\Entity(repositoryClass="Eccube\Repository\CompanyRepository")
      */
-    class Customer extends \Eccube\Entity\AbstractEntity
+    class Company extends \Eccube\Entity\AbstractEntity
     {
         /**
          * @var int
@@ -46,13 +45,6 @@ if (!class_exists('\Eccube\Entity\Customer')) {
          * @ORM\Column(name="company_name", type="string", length=255)
          */
         private $company_name;
-
-        /**
-         * @var int
-         *
-         * @ORM\Column(name="customer_id", type="integer", options={"unsigned":true})
-         */
-        private $customer_id;
 
         /**
          * @var \DateTime
@@ -90,30 +82,6 @@ if (!class_exists('\Eccube\Entity\Customer')) {
         public function getCompanyName()
         {
             return $this->company_name;
-        }
-
-        /**
-         * Set customer_id.
-         *
-         * @param int $customer_id
-         *
-         * @return Company
-         */
-        public function setCustomerId($customer_id)
-        {
-            $this->customer_id = $customer_id;
-
-            return $this;
-        }
-
-        /**
-         * Get customer_id.
-         *
-         * @return int
-         */
-        public function getCustomerId()
-        {
-            return $this->customer_id;
         }
 
         /**
@@ -164,12 +132,5 @@ if (!class_exists('\Eccube\Entity\Customer')) {
             return $this->update_date;
         }
 
-         /**
-         * Constructor
-         */
-        public function __construct()
-        {
-            
-        }
     }
 }

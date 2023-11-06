@@ -911,11 +911,15 @@ admin.customer.customer_management: Khách hàng
 admin.customer.customer_list: Tất cả khách hàng
 admin.customer.customer_registration: Thêm khách hàng
 admin.customer.customer_address_registration: Đăng ký địa chỉ giao hàng
+
 admin.customer.company_registration: Đăng kí công ty trực thuộc
 admin.customer.company_all: Công ty trực thuộc
 admin.customer.company_info: Thông tin công ty trực thuộc
 admin.common.company_code: Mã công ty
+admin.customer.company_list: Danh sách công ty
 
+admin.company.company_management: Công ty
+admin.company.multi_search_label: ID công ty/ Tên công ty
 # Labels / Messages
 admin.customer.customer_id: Mã khách hàng
 admin.customer.customer_info: Thông tin khách hàng

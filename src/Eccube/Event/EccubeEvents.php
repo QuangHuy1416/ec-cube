@@ -99,6 +99,7 @@ final class EccubeEvents
     const ADMIN_CUSTOMER_INDEX_INITIALIZE = 'admin.customer.index.initialize';
     const ADMIN_CUSTOMER_INDEX_SEARCH = 'admin.customer.index.search';
 
+    const ADMIN_COMPANY_INDEX_INITIALIZE = 'admin.company.index.initialize';
     // resend
     const ADMIN_CUSTOMER_RESEND_COMPLETE = 'admin.customer.resend.complete';
 
@@ -114,6 +115,8 @@ final class EccubeEvents
      * Admin/Customer/CustomerEditController
      */
     // index
+    const ADMIN_COMPANY_EDIT_INDEX_INITIALIZE = 'admin.company.edit.index.initialize';
+
     const ADMIN_CUSTOMER_EDIT_INDEX_INITIALIZE = 'admin.customer.edit.index.initialize';
     const ADMIN_CUSTOMER_EDIT_INDEX_COMPLETE = 'admin.customer.edit.index.complete';
 

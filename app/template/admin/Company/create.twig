@@ -24,7 +24,7 @@ file that was distributed with this source code.
 
 {% block main %}
 <form name="customer_form" role="form" id="customer_form" method="post" class="h-adr"
-    action="{%- if Customer.id %}{{ url('admin_customer_edit', { id : Customer.id }) }}{% else %}{{ url('admin_customer_new') }}{% endif -%}"
+    action="{%- if Customer.id %}{{ url('admin_customer_edit', { id : Customer.id }) }}{% else %}{{ url('admin_company_new') }}{% endif -%}"
     novalidate>
     <span class="p-country-name" style="display:none;">Japan</span>
     {{ form_widget(form._token) }}
@@ -65,16 +65,6 @@ file that was distributed with this source code.
                             <div class="row mb-2">
                                 <div class="col-3">
                                     <span>{{ 'admin.common.company_name'|trans }}</span>
-                                </div>
-                                <div class="col">
-                                    {{ form_widget(form.company_name) }}
-                                    {{ form_errors(form.company_name) }}
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                                <div class="col-3">
-                                    <span>{{ 'admin.customer.customer_id'|trans }}</span>
                                 </div>
                                 <div class="col">
                                     {{ form_widget(form.company_name) }}
