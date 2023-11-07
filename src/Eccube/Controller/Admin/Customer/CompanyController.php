@@ -17,22 +17,18 @@ use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\QueryBuilder;
 use Eccube\Common\Constant;
 use Eccube\Controller\AbstractController;
-use Eccube\Entity\Master\CsvType;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
-use Eccube\Form\Type\Admin\SearchCustomerType;
-use Eccube\Repository\CustomerRepository;
+use Eccube\Form\Type\Admin\SearchCompanyType;
 use Eccube\Repository\CompanyRepository;
 use Eccube\Repository\Master\PageMaxRepository;
 use Eccube\Repository\Master\PrefRepository;
 use Eccube\Repository\Master\SexRepository;
 use Eccube\Service\CsvExportService;
-use Eccube\Service\MailService;
 use Eccube\Util\FormUtil;
 use Knp\Component\Pager\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -42,11 +38,6 @@ class CompanyController extends AbstractController
      * @var CsvExportService
      */
     protected $csvExportService;
-
-    /**
-     * @var MailService
-     */
-    protected $mailService;
 
     /**
      * @var PrefRepository
@@ -64,41 +55,33 @@ class CompanyController extends AbstractController
     protected $pageMaxRepository;
 
     /**
-     * @var CustomerRepository
-     */
-    protected $customerRepository;
-
-    /**
      * @var CompanyRepository
      */
     protected $companyRepository;
 
     public function __construct(
         PageMaxRepository $pageMaxRepository,
-        CustomerRepository $customerRepository,
         CompanyRepository $companyRepository,
         SexRepository $sexRepository,
         PrefRepository $prefRepository,
-        MailService $mailService,
         CsvExportService $csvExportService
     ) {
         $this->pageMaxRepository = $pageMaxRepository;
-        $this->customerRepository = $customerRepository;
         $this->companyRepository = $companyRepository;
         $this->sexRepository = $sexRepository;
         $this->prefRepository = $prefRepository;
-        $this->mailService = $mailService;
         $this->csvExportService = $csvExportService;
     }
 
     /**
      * @Route("/%eccube_admin_route%/company", name="admin_company")
+     * @Route("/%eccube_admin_route%/company/page/{page_no}", requirements={"page_no" = "\d+"}, name="admin_company_page")
      * @Template("@admin/Company/indexCompany.twig")
      */
     public function index(Request $request, $page_no = null, Paginator $paginator)
     {
         $session = $this->session;
-        $builder = $this->formFactory->createBuilder(SearchCustomerType::class);
+        $builder = $this->formFactory->createBuilder(SearchCompanyType::class);
 
         $event = new EventArgs(
             [
@@ -106,18 +89,18 @@ class CompanyController extends AbstractController
             ],
             $request
         );
-        $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_CUSTOMER_INDEX_INITIALIZE, $event);
+        $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_COMPANY_INDEX_INITIALIZE, $event);
 
         $searchForm = $builder->getForm();
 
         $pageMaxis = $this->pageMaxRepository->findAll();
-        $pageCount = $session->get('eccube.admin.customer.search.page_count', $this->eccubeConfig['eccube_default_page_count']);
+        $pageCount = $session->get('eccube.admin.company.search.page_count', $this->eccubeConfig['eccube_default_page_count']);
         $pageCountParam = $request->get('page_count');
         if ($pageCountParam && is_numeric($pageCountParam)) {
             foreach ($pageMaxis as $pageMax) {
                 if ($pageCountParam == $pageMax->getName()) {
                     $pageCount = $pageMax->getName();
-                    $session->set('eccube.admin.customer.search.page_count', $pageCount);
+                    $session->set('eccube.admin.company.search.page_count', $pageCount);
                     break;
                 }
             }
@@ -129,8 +112,8 @@ class CompanyController extends AbstractController
                 $searchData = $searchForm->getData();
                 $page_no = 1;
 
-                $session->set('eccube.admin.customer.search', FormUtil::getViewData($searchForm));
-                $session->set('eccube.admin.customer.search.page_no', $page_no);
+                $session->set('eccube.admin.company.search', FormUtil::getViewData($searchForm));
+                $session->set('eccube.admin.company.search.page_no', $page_no);
             } else {
                 return [
                     'searchForm' => $searchForm->createView(),
@@ -144,22 +127,22 @@ class CompanyController extends AbstractController
         } else {
             if (null !== $page_no || $request->get('resume')) {
                 if ($page_no) {
-                    $session->set('eccube.admin.customer.search.page_no', (int) $page_no);
+                    $session->set('eccube.admin.company.search.page_no', (int) $page_no);
                 } else {
-                    $page_no = $session->get('eccube.admin.customer.search.page_no', 1);
+                    $page_no = $session->get('eccube.admin.company.search.page_no', 1);
                 }
-                $viewData = $session->get('eccube.admin.customer.search', []);
+                $viewData = $session->get('eccube.admin.company.search', []);
             } else {
                 $page_no = 1;
                 $viewData = FormUtil::getViewData($searchForm);
-                $session->set('eccube.admin.customer.search', $viewData);
-                $session->set('eccube.admin.customer.search.page_no', $page_no);
+                $session->set('eccube.admin.company.search', $viewData);
+                $session->set('eccube.admin.company.search.page_no', $page_no);
             }
             $searchData = FormUtil::submitAndGetData($searchForm, $viewData);
         }
 
         /** @var QueryBuilder $qb */
-        $qb = $this->companyRepository->getList();
+        $qb = $this->companyRepository->getList($searchData);
 
         $event = new EventArgs(
             [
@@ -168,7 +151,7 @@ class CompanyController extends AbstractController
             ],
             $request
         );
-        $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_CUSTOMER_INDEX_SEARCH, $event);
+        $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_COMPANY_INDEX_SEARCH, $event);
 
         $pagination = $paginator->paginate(
             $qb,
@@ -187,7 +170,7 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("/%eccube_admin_route%/customer/{id}/delete", requirements={"id" = "\d+"}, name="admin_customer_delete", methods={"DELETE"})
+     * @Route("/%eccube_admin_route%/company/{id}/delete", requirements={"id" = "\d+"}, name="admin_company_delete", methods={"DELETE"})
      */
     public function delete(Request $request, $id, TranslatorInterface $translator)
     {
@@ -195,27 +178,27 @@ class CompanyController extends AbstractController
 
         log_info('会員削除開始', [$id]);
 
-        $page_no = intval($this->session->get('eccube.admin.customer.search.page_no'));
+        $page_no = intval($this->session->get('eccube.admin.company.search.page_no'));
         $page_no = $page_no ? $page_no : Constant::ENABLED;
 
-        $Customer = $this->customerRepository
+        $company = $this->companyRepository
             ->find($id);
 
-        if (!$Customer) {
+        if (!$company) {
             $this->deleteMessage();
 
-            return $this->redirect($this->generateUrl('admin_customer_page',
+            return $this->redirect($this->generateUrl('admin_company_page',
                     ['page_no' => $page_no]).'?resume='.Constant::ENABLED);
         }
 
         try {
-            $this->entityManager->remove($Customer);
-            $this->entityManager->flush($Customer);
-            $this->addSuccess('admin.customer.delete.complete', 'admin');
+            $this->entityManager->remove($company);
+            $this->entityManager->flush($company);
+            $this->addSuccess('admin.company.delete.complete', 'admin');
         } catch (ForeignKeyConstraintViolationException $e) {
             log_error('会員削除失敗', [$e], 'admin');
 
-            $message = trans('admin.common.delete_error_foreign_key', ['%name%' => $Customer->getName()]);
+            $message = trans('admin.common.delete_error_foreign_key', ['%name%' => $company->getName()]);
             $this->addError($message, 'admin');
         }
 
@@ -223,90 +206,13 @@ class CompanyController extends AbstractController
 
         $event = new EventArgs(
             [
-                'Customer' => $Customer,
+                'company' => $company,
             ],
             $request
         );
-        $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_CUSTOMER_DELETE_COMPLETE, $event);
+        $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_COMPANY_DELETE_COMPLETE, $event);
 
-        return $this->redirect($this->generateUrl('admin_customer_page',
+        return $this->redirect($this->generateUrl('admin_company_page',
                 ['page_no' => $page_no]).'?resume='.Constant::ENABLED);
-    }
-
-    /**
-     * 会員CSVの出力.
-     *
-     * @Route("/%eccube_admin_route%/customer/export", name="admin_customer_export")
-     *
-     * @param Request $request
-     *
-     * @return StreamedResponse
-     */
-    public function export(Request $request)
-    {
-        // タイムアウトを無効にする.
-        set_time_limit(0);
-
-        // sql loggerを無効にする.
-        $em = $this->entityManager;
-        $em->getConfiguration()->setSQLLogger(null);
-
-        $response = new StreamedResponse();
-        $response->setCallback(function () use ($request) {
-            // CSV種別を元に初期化.
-            $this->csvExportService->initCsvType(CsvType::CSV_TYPE_CUSTOMER);
-
-            // ヘッダ行の出力.
-            $this->csvExportService->exportHeader();
-
-            // 会員データ検索用のクエリビルダを取得.
-            $qb = $this->csvExportService
-                ->getCustomerQueryBuilder($request);
-
-            // データ行の出力.
-            $this->csvExportService->setExportQueryBuilder($qb);
-            $this->csvExportService->exportData(function ($entity, $csvService) use ($request) {
-                $Csvs = $csvService->getCsvs();
-
-                /** @var $Customer \Eccube\Entity\Customer */
-                $Customer = $entity;
-
-                $ExportCsvRow = new \Eccube\Entity\ExportCsvRow();
-
-                // CSV出力項目と合致するデータを取得.
-                foreach ($Csvs as $Csv) {
-                    // 会員データを検索.
-                    $ExportCsvRow->setData($csvService->getData($Csv, $Customer));
-
-                    $event = new EventArgs(
-                        [
-                            'csvService' => $csvService,
-                            'Csv' => $Csv,
-                            'Customer' => $Customer,
-                            'ExportCsvRow' => $ExportCsvRow,
-                        ],
-                        $request
-                    );
-                    $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_CUSTOMER_CSV_EXPORT, $event);
-
-                    $ExportCsvRow->pushData();
-                }
-
-                //$row[] = number_format(memory_get_usage(true));
-                // 出力.
-                $csvService->fputcsv($ExportCsvRow->getRow());
-            });
-        });
-
-        $now = new \DateTime();
-        $filename = 'customer_'.$now->format('YmdHis').'.csv';
-        $response->headers->set('Content-Type', 'application/octet-stream');
-        $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
-
-        $response->send();
-
-        log_info('会員CSVファイル名', [$filename]);
-
-        return $response;
     }
 }

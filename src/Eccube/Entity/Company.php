@@ -31,20 +31,20 @@ if (!class_exists('\Eccube\Entity\Company')) {
     class Company extends \Eccube\Entity\AbstractEntity
     {
         /**
-         * @var int
+         * @var string
          *
-         * @ORM\Column(name="company_id", type="string")
+         * @ORM\Column(name="id", type="string")
          * @ORM\Id
-         * @ORM\GeneratedValue(strategy="IDENTITY")
+         * @ORM\GeneratedValue(strategy="UUID")
          */
-        private $company_id;
+        private $id;
 
         /**
          * @var string
          *
-         * @ORM\Column(name="company_name", type="string", length=255)
+         * @ORM\Column(name="name", type="string", length=255)
          */
-        private $company_name;
+        private $name;
 
         /**
          * @var \DateTime
@@ -60,28 +60,53 @@ if (!class_exists('\Eccube\Entity\Company')) {
          */
         private $update_date;
 
-          /**
-         * Set company_name.
+
+        /**
+         * Set id.
          *
-         * @param string $company_name
+         * @param string $id
          *
          * @return Company
          */
-        public function setCompanyName($company_name)
+        public function setId($id)
         {
-            $this->company_name = $company_name;
+            $this->id = $id;
 
             return $this;
         }
 
         /**
-         * Get company_name.
+         * Get id.
          *
          * @return string
          */
-        public function getCompanyName()
+        public function getId()
         {
-            return $this->company_name;
+            return $this->id;
+        }
+
+          /**
+         * Set name.
+         *
+         * @param string $name
+         *
+         * @return Company
+         */
+        public function setName($name)
+        {
+            $this->name = $name;
+
+            return $this;
+        }
+
+        /**
+         * Get name.
+         *
+         * @return string
+         */
+        public function getName()
+        {
+            return $this->name;
         }
 
         /**
@@ -89,7 +114,7 @@ if (!class_exists('\Eccube\Entity\Company')) {
          *
          * @param \DateTime $createDate
          *
-         * @return Customer
+         * @return Company
          */
         public function setCreateDate($createDate)
         {
@@ -113,7 +138,7 @@ if (!class_exists('\Eccube\Entity\Company')) {
          *
          * @param \DateTime $updateDate
          *
-         * @return Customer
+         * @return Company
          */
         public function setUpdateDate($updateDate)
         {

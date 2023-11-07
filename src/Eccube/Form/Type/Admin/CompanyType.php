@@ -43,16 +43,16 @@ class CompanyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('company_id', TextType::class, [
-                'required' => false,
+            ->add('id', TextType::class, [
+                'required' => true,
                 'constraints' => [
                     new Assert\Length([
                         'max' => $this->eccubeConfig['eccube_stext_len'],
                     ]),
                 ],
             ])
-            ->add('company_name', TextType::class, [
-                'required' => false,
+            ->add('name', TextType::class, [
+                'required' => true,
                 'constraints' => [
                     new Assert\Length([
                         'max' => $this->eccubeConfig['eccube_stext_len'],

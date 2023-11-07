@@ -100,11 +100,13 @@ final class EccubeEvents
     const ADMIN_CUSTOMER_INDEX_SEARCH = 'admin.customer.index.search';
 
     const ADMIN_COMPANY_INDEX_INITIALIZE = 'admin.company.index.initialize';
+    const ADMIN_COMPANY_INDEX_SEARCH = 'admin.company.index.search';
     // resend
     const ADMIN_CUSTOMER_RESEND_COMPLETE = 'admin.customer.resend.complete';
 
     // delete
     const ADMIN_CUSTOMER_DELETE_COMPLETE = 'admin.customer.delete.complete';
+    const ADMIN_COMPANY_DELETE_COMPLETE = 'admin.company.delete.complete';
 
     const ADMIN_CUSTOMER_DELIVERY_DELETE_COMPLETE = 'admin.customer.delivery.delete.complete';
 

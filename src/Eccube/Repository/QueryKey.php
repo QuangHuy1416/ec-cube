@@ -19,6 +19,7 @@ final class QueryKey
     const PRODUCT_SEARCH_ADMIN = 'Product.getQueryBuilderBySearchDataForAdmin';
 
     const CUSTOMER_SEARCH = 'Customer.getQueryBuilderBySearchData';
+    const COMPANY_SEARCH = 'Company.getQueryBuilderBySearchData';
 
     const ORDER_SEARCH_ADMIN = 'Order.getQueryBuilderBySearchDataForAdmin';
     const ORDER_SEARCH_BY_CUSTOMER = 'Order.getQueryBuilderByCustomer';

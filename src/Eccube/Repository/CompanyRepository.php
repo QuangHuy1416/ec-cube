@@ -13,13 +13,12 @@
 
 namespace Eccube\Repository;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Eccube\Common\EccubeConfig;
+use Doctrine\ORM\EntityRepository;
 use Eccube\Doctrine\Query\Queries;
+use Eccube\Common\EccubeConfig;
 use Eccube\Entity\Company;
 use Eccube\Util\StringUtil;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
  * CustomerRepository
@@ -29,14 +28,33 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
  */
 class CompanyRepository extends AbstractRepository
 {
-   /**
-     * ClassNameRepository constructor.
+    /**
+     * @var Queries
+     */
+    protected $queries;
+
+    /**
+     * @var EntityRepository
+     */
+    protected $entityRepository;
+
+    /**
+     * @var EccubeConfig
+     */
+    protected $eccubeConfig;
+
+    /**
+     * CompamyRepository constructor.
      *
      * @param RegistryInterface $registry
+     * @param Queries $queries
+     * @param EccubeConfig $eccubeConfig
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(RegistryInterface $registry, Queries $queries, EccubeConfig $eccubeConfig)
     {
         parent::__construct($registry, Company::class);
+        $this->queries = $queries;
+        $this->eccubeConfig = $eccubeConfig;
     }
 
     /**
@@ -44,23 +62,43 @@ class CompanyRepository extends AbstractRepository
      *
      * @return array 規格の配列
      */
-    public function getList()
+    public function getList($searchData)
     {
-        $qb = $this->createQueryBuilder('cn');
-        $company = $qb->getQuery()->getResult();
+        
+        $qb = $this->createQueryBuilder('c')
+            ->select('c');
 
-        return $company;
-        // $em = $this->getEntityManager();
-        // $qb = $em->createQueryBuilder()
-        //             ->select('u')
-        //          ->from('\Eccube\Entity\Company', 'u');
+    if (isset($searchData['multi']) && StringUtil::isNotBlank($searchData['multi'])) {
+        //スペース除去
+        $clean_key_multi = preg_replace('/[　]+/u', '', $searchData['multi']);
+        $id = preg_match('/^\d{0,10}$/', $clean_key_multi) ? $clean_key_multi : null;
+        $space = $this->eccubeConfig->get('eccube_space');
+        $qb
+            ->andWhere('c.id LIKE :id OR CONCAT(c.name, :space) LIKE :name ')
+            ->setParameter('id', '%'.$id.'%')
+            ->setParameter('name', '%'.$clean_key_multi.'%')
+            ->setParameter('space', $space);
+        }
+        // create_date
+         if (!empty($searchData['create_date_start']) && $searchData['create_date_start']) {
+            $qb
+                ->andWhere('c.create_date >= :create_date_start')
+                ->setParameter('create_date_start', $searchData['create_date_start']);
+        }
 
-        // $q = $qb->getQuery();
-        // $results = $q->execute();
-        // return $results;
+        // update_date
+        if (!empty($searchData['update_date_start']) && $searchData['update_date_start']) {
+            $qb
+                ->andWhere('c.update_date >= :update_date_start')
+                ->setParameter('update_date_start', $searchData['update_date_start']);
+        }
+            
+        $qb->addOrderBy('c.update_date', 'DESC');
+
+        return $this->queries->customize(QueryKey::COMPANY_SEARCH, $qb, $searchData);
     }
 
-    public function create($company)
+    public function create()
     {
         $Company = new \Eccube\Entity\Company();
 
@@ -74,17 +112,5 @@ class CompanyRepository extends AbstractRepository
     {
         
     }
-
-    /**
-     * 規格を削除する.
-     *
-     * @param company $company
-     *
-     */
-    public function delete($company)
-    {
-        $em = $this->getEntityManager();
-        $em->remove($company);
-        $em->flush($company);
-    }
+    
 }

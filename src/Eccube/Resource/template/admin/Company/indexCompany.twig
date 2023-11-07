@@ -32,6 +32,10 @@ file that was distributed with this source code.
     </style>
 {% endblock stylesheet %}
 
+{% block javascript %}
+    <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+{% endblock javascript %}
+
 {% block main %}
     <form name="search_form" id="search_form" method="post" action="">
         {{ form_widget(searchForm._token) }}
@@ -44,59 +48,10 @@ file that was distributed with this source code.
                             {{ form_widget(searchForm.multi) }}
                             {{ form_errors(searchForm.multi) }}
                         </div>
-                        <div class="d-inline-block mb-3 collapsed" data-toggle="collapse" href="#searchDetail" aria-expanded="false" aria-controls="searchDetail"><a><i class="fa font-weight-bold mr-1 fa-plus-square-o"></i><span class="font-weight-bold">{{ 'admin.common.search_detail'|trans }}</span></a></div>
                     </div>
                 </div>
-            </div>
-            <div class="c-subContents ec-collapse collapse{{ has_errors ? ' show' }}" id="searchDetail">
-                <div class="row mb-2">
-                    <div class="col">
-                        <div>
-                            <label>{{ 'admin.common.create_date'|trans }}</label>
-                            <div class="form-row align-items-center">
-                                <div class="col">
-                                    {{ form_widget(searchForm.create_date_start) }}
-                                    {{ form_errors(searchForm.create_date_start) }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col">
-                        <div>
-                            <label>{{ 'admin.common.update_date'|trans }}</label>
-                            <div class="form-row align-items-center">
-                                <div class="col">
-                                    {{ form_widget(searchForm.update_date_start) }}
-                                    {{ form_errors(searchForm.update_date_start) }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {# エンティティ拡張の自動出力 #}
-                {% for f in searchForm if f.vars.eccube_form_options.auto_render %}
-                    {# TODO 1項目1行になるのを改善 #}
-                    <div class="row mb-2">
-                        {% if f.vars.eccube_form_options.form_theme %}
-                            {% form_theme f f.vars.eccube_form_options.form_theme %}
-                            {{ form_row(f) }}
-                        {% else %}
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label>{{ f.vars.label|trans }}</label>
-                                    {{ form_widget(f) }}
-                                    {{ form_errors(f) }}
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
             </div>
         </div>
-        
         <div class="c-outsideBlock__contents mb-5">
             <button type="submit" class="btn btn-ec-conversion px-5">{{ 'admin.common.search'|trans }}</button>
             {% if pagination %}
@@ -117,7 +72,7 @@ file that was distributed with this source code.
                                     <select class="custom-select" onchange="location = this.value;">
                                         {% for pageMax in pageMaxis %}
                                             <option {% if pageMax.name == page_count %} selected {% endif %}
-                                                    value="{{ path('admin_company_page', {'page_no': 1, 'page_count': pageMax.name }) }}">
+                                                    value="{{ path('admin_customer_page', {'page_no': 1, 'page_count': pageMax.name }) }}">
                                                 {{ 'admin.common.count'|trans({ '%count%': pageMax.name }) }}</option>
                                         {% endfor %}
                                     </select>
@@ -143,8 +98,8 @@ file that was distributed with this source code.
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for Company in pagination %}
-                                        <tr id="ex-customer-{{ Company.id }}">
+                                    {% for Customer in pagination %}
+                                        <tr id="ex-customer-{{ Customer.id }}">
                                             <td class="align-middle pl-3">{{ Company.id }}</td>
                                             <td class="align-middle pl-3">{{ Company.name }}</td>
                                             <td class="align-middle"></td>

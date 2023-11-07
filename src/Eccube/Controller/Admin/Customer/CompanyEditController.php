@@ -46,7 +46,7 @@ class CompanyEditController extends AbstractController
     }
 
     /**
-     * @Route("/%eccube_admin_route%/cus/new", name="admin_company_new")
+     * @Route("/%eccube_admin_route%/com/new", name="admin_company_new")
      * @Template("@admin/Company/create.twig")
      */
     public function index(Request $request, $id = null)
@@ -61,10 +61,10 @@ class CompanyEditController extends AbstractController
                 throw new NotFoundHttpException();
             }
 
-            $oldStatusId = $Company->getStatus()->getId();
+            //$oldStatusId = $Company->getStatus()->getId();
         // 新規登録
         } else {
-            //$Company = $this->companyRepository->create();
+            $Company = $this->companyRepository->create();
         }
 
         // 会員登録フォーム
@@ -87,7 +87,7 @@ class CompanyEditController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             log_info('Start register company', [$Company->getId()]);
 
-            $encoder = $this->encoderFactory->getEncoder($Company);
+            //$encoder = $this->encoderFactory->getEncoder($Company);
 
             $this->entityManager->persist($Company);
             $this->entityManager->flush();
