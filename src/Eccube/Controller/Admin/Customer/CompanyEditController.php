@@ -62,7 +62,7 @@ class CompanyEditController extends AbstractController
             $Company = new \Eccube\Entity\Company();
         }
 
-        // 会員登録フォーム
+        //Tạo from company
         $builder = $this->formFactory
             ->createBuilder(CompanyType::class, $Company);
 
@@ -115,9 +115,11 @@ class CompanyEditController extends AbstractController
             );
 
             $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_COMPANY_EDIT_INDEX_COMPLETE, $event);
-
+            
+            //Thông báo đăng kí thành công
             $this->addSuccess('admin.common.save_complete', 'admin');
 
+            //Trả về màn hình edit
             return $this->redirectToRoute('admin_company_edit', [
                 'id' => $Company->getId(),
             ]);

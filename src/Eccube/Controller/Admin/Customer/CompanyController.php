@@ -152,7 +152,7 @@ class CompanyController extends AbstractController
     {
         $this->isTokenValid();
 
-        log_info('会員削除開始', [$id]);
+        log_info('Bắt đầu xóa công ty', [$id]);
 
         $page_no = intval($this->session->get('eccube.admin.company.search.page_no'));
         $page_no = $page_no ? $page_no : Constant::ENABLED;
@@ -172,12 +172,12 @@ class CompanyController extends AbstractController
             $this->entityManager->flush($company);
             $this->addSuccess('admin.company.delete.complete', 'admin');
         } catch (ForeignKeyConstraintViolationException $e) {
-            log_error('会員削除失敗', [$e], 'admin');
+            log_error('Xóa không thành công', [$e], 'admin');
             $message = trans('admin.common.delete_error_foreign_key', ['%name%' => $company->getName()]);
             $this->addError($message, 'admin');
         }
 
-        log_info('会員削除完了', [$id]);
+        log_info('Công ty đã bị xóa', [$id]);
 
         $event = new EventArgs(
             [
