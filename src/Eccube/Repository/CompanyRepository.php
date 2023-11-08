@@ -65,8 +65,8 @@ class CompanyRepository extends AbstractRepository
     public function getList($searchData)
     {
         
-        $qb = $this->createQueryBuilder('c')
-            ->select('c');
+    $qb = $this->createQueryBuilder('c')
+       ->select('c');
 
     if (isset($searchData['multi']) && StringUtil::isNotBlank($searchData['multi'])) {
         //スペース除去
@@ -92,25 +92,10 @@ class CompanyRepository extends AbstractRepository
                 ->andWhere('c.update_date >= :update_date_start')
                 ->setParameter('update_date_start', $searchData['update_date_start']);
         }
-            
+        
+        // Order By
         $qb->addOrderBy('c.update_date', 'DESC');
 
         return $this->queries->customize(QueryKey::COMPANY_SEARCH, $qb, $searchData);
     }
-
-    public function create()
-    {
-        $Company = new \Eccube\Entity\Company();
-
-        // $em = $this->getEntityManager();
-        // $em->persist($company);
-        // $em->flush($company);
-        return $Company;
-    }
-
-    public function update($entity)
-    {
-        
-    }
-    
 }

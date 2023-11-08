@@ -14,57 +14,52 @@
 namespace Eccube\Controller\Admin\Customer;
 
 use Eccube\Controller\AbstractController;
-use Eccube\Entity\Master\CustomerStatus;
 use Eccube\Event\EccubeEvents;
+use Eccube\Common\EccubeConfig;
 use Eccube\Event\EventArgs;
 use Eccube\Form\Type\Admin\CompanyType;
 use Eccube\Repository\CompanyRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class CompanyEditController extends AbstractController
 {
+    /**
+     * @var EccubeConfig
+     */
+    protected $eccubeConfig;
     /**
      * @var CompanyRepository
      */
     protected $companyRepository;
 
-    /**
-     * @var EncoderFactoryInterface
-     */
-    protected $encoderFactory;
-
     public function __construct(
         CompanyRepository $companyRepository,
-        EncoderFactoryInterface $encoderFactory
+        EccubeConfig $eccubeConfig
     ) {
         $this->companyRepository = $companyRepository;
-        $this->encoderFactory = $encoderFactory;
+        $this->eccubeConfig = $eccubeConfig;
     }
 
-    /**
+   	/**
      * @Route("/%eccube_admin_route%/com/new", name="admin_company_new")
+     * @Route("/%eccube_admin_route%/company/{id}/edit", requirements={"id" = "^[a-zA-Z0-9]+$"}, name="admin_company_edit")
      * @Template("@admin/Company/create.twig")
      */
     public function index(Request $request, $id = null)
     {
-        $this->entityManager->getFilters()->enable('incomplete_order_status_hidden');
-        // 編集
-        if ($id) {
+        // Check update
+        if (is_numeric($id) && strlen($id) <= $this->eccubeConfig['eccube_id_company_max_len']) {
             $Company = $this->companyRepository
                 ->find($id);
 
             if (is_null($Company)) {
-                throw new NotFoundHttpException();
+                $Company = new \Eccube\Entity\Company();
             }
-
-            //$oldStatusId = $Company->getStatus()->getId();
-        // 新規登録
+        // Create
         } else {
-            $Company = $this->companyRepository->create();
+            $Company = new \Eccube\Entity\Company();
         }
 
         // 会員登録フォーム
@@ -78,6 +73,7 @@ class CompanyEditController extends AbstractController
             ],
             $request
         );
+
         $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_COMPANY_EDIT_INDEX_INITIALIZE, $event);
 
         $form = $builder->getForm();
@@ -85,9 +81,25 @@ class CompanyEditController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            log_info('Start register company', [$Company->getId()]);
+            //Tìm kiếm công ty có ID giống với ID được nhập
+            $company = $this->companyRepository->find($Company->getId());
 
-            //$encoder = $this->encoderFactory->getEncoder($Company);
+            //Nếu ID công ty được nhập đã tồn tại
+            if (($company && $Company->getId() !== $id) || ($company && is_null($id)))
+            {
+                // Thông báo lỗi ID đã được sử dụng.
+                $this->addError('admin.common.id_error', 'admin');
+
+                //Trả về màn hình đăng kí
+                return [
+                    'form' => $form->createView(),
+                    'Company' => $Company,
+                ];
+                log_info('Create fail.', [$Company->getId()]);
+            }
+
+            //Create data
+            log_info('Start register company', [$Company->getId()]);
 
             $this->entityManager->persist($Company);
             $this->entityManager->flush();
@@ -101,11 +113,12 @@ class CompanyEditController extends AbstractController
                 ],
                 $request
             );
-            $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_CUSTOMER_EDIT_INDEX_COMPLETE, $event);
+
+            $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_COMPANY_EDIT_INDEX_COMPLETE, $event);
 
             $this->addSuccess('admin.common.save_complete', 'admin');
 
-            return $this->redirectToRoute('admin_customer_edit', [
+            return $this->redirectToRoute('admin_company_edit', [
                 'id' => $Company->getId(),
             ]);
         }

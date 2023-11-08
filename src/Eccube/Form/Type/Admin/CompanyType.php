@@ -47,8 +47,13 @@ class CompanyType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new Assert\Length([
-                        'max' => $this->eccubeConfig['eccube_stext_len'],
+                        'max' => $this->eccubeConfig['eccube_id_company_max_len'],
                     ]),
+                    new Assert\Type([
+                        'type' => 'numeric',
+                        'message' => 'form_error.numeric_only',
+                    ]),
+                    new Assert\NotBlank(),
                 ],
             ])
             ->add('name', TextType::class, [
@@ -57,6 +62,7 @@ class CompanyType extends AbstractType
                     new Assert\Length([
                         'max' => $this->eccubeConfig['eccube_stext_len'],
                     ]),
+                    new Assert\NotBlank(),
                 ],
             ]);
     }

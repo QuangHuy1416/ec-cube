@@ -145,7 +145,7 @@ file that was distributed with this source code.
                                     <tbody>
                                     {% for Company in pagination %}
                                         <tr id="ex-customer-{{ Company.id }}">
-                                            <td class="align-middle pl-3">{{ Company.id }}</td>
+                                            <td class="align-middle pl-3"><a href="{{ url('admin_company_edit', { 'id': Company.id}) }}">{{ Company.id }}</a></td>
                                             <td class="align-middle pl-3">{{ Company.name }}</td>
                                             <td class="align-middle"></td>
                                             <td class="align-middle pr-3">

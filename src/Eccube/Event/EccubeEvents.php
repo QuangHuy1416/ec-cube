@@ -117,10 +117,15 @@ final class EccubeEvents
      * Admin/Customer/CustomerEditController
      */
     // index
-    const ADMIN_COMPANY_EDIT_INDEX_INITIALIZE = 'admin.company.edit.index.initialize';
-
     const ADMIN_CUSTOMER_EDIT_INDEX_INITIALIZE = 'admin.customer.edit.index.initialize';
     const ADMIN_CUSTOMER_EDIT_INDEX_COMPLETE = 'admin.customer.edit.index.complete';
+
+    /**
+     * Admin/Customer/CompanyEditController
+     */
+    // index
+    const ADMIN_COMPANY_EDIT_INDEX_COMPLETE = 'admin.company.edit.index.complete';
+    const ADMIN_COMPANY_EDIT_INDEX_INITIALIZE = 'admin.company.edit.index.initialize';
 
     // index
     const ADMIN_CUSTOMER_DELIVERY_EDIT_INDEX_INITIALIZE = 'admin.customer.delivery.edit.index.initialize';

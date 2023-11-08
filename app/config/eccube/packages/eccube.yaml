@@ -99,6 +99,7 @@ parameters:
     eccube_price_max: 2147483647
     eccube_tel_len_max: 14
     eccube_postal_code: 8
+    eccube_id_company_max_len: 6
     eccube_password_min_len: 8
     eccube_password_max_len: 32
     eccube_composer_memory_limit: 1536M

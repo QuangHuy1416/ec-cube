@@ -22,9 +22,6 @@ use Eccube\Event\EventArgs;
 use Eccube\Form\Type\Admin\SearchCompanyType;
 use Eccube\Repository\CompanyRepository;
 use Eccube\Repository\Master\PageMaxRepository;
-use Eccube\Repository\Master\PrefRepository;
-use Eccube\Repository\Master\SexRepository;
-use Eccube\Service\CsvExportService;
 use Eccube\Util\FormUtil;
 use Knp\Component\Pager\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -34,21 +31,6 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class CompanyController extends AbstractController
 {
-    /**
-     * @var CsvExportService
-     */
-    protected $csvExportService;
-
-    /**
-     * @var PrefRepository
-     */
-    protected $prefRepository;
-
-    /**
-     * @var SexRepository
-     */
-    protected $sexRepository;
-
     /**
      * @var PageMaxRepository
      */
@@ -61,22 +43,16 @@ class CompanyController extends AbstractController
 
     public function __construct(
         PageMaxRepository $pageMaxRepository,
-        CompanyRepository $companyRepository,
-        SexRepository $sexRepository,
-        PrefRepository $prefRepository,
-        CsvExportService $csvExportService
+        CompanyRepository $companyRepository
     ) {
         $this->pageMaxRepository = $pageMaxRepository;
         $this->companyRepository = $companyRepository;
-        $this->sexRepository = $sexRepository;
-        $this->prefRepository = $prefRepository;
-        $this->csvExportService = $csvExportService;
     }
 
     /**
      * @Route("/%eccube_admin_route%/company", name="admin_company")
      * @Route("/%eccube_admin_route%/company/page/{page_no}", requirements={"page_no" = "\d+"}, name="admin_company_page")
-     * @Template("@admin/Company/indexCompany.twig")
+     * @Template("@admin/Company/index.twig")
      */
     public function index(Request $request, $page_no = null, Paginator $paginator)
     {
@@ -197,7 +173,6 @@ class CompanyController extends AbstractController
             $this->addSuccess('admin.company.delete.complete', 'admin');
         } catch (ForeignKeyConstraintViolationException $e) {
             log_error('会員削除失敗', [$e], 'admin');
-
             $message = trans('admin.common.delete_error_foreign_key', ['%name%' => $company->getName()]);
             $this->addError($message, 'admin');
         }

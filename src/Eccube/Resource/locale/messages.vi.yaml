@@ -401,6 +401,7 @@ admin.common.create_complete: Đã tạo
 admin.common.system_error: Đã xảy ra lỗi hệ thống
 admin.common.to_show_complete: %name% được hiển thị
 admin.common.to_hide_complete: %name% bị ẩn
+admin.common.id_error: Mã công ty đã được sử dụng
 
 # action labels
 admin.common.save: Lưu lại
