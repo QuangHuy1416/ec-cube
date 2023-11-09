@@ -68,6 +68,7 @@ class CompanyRepository extends AbstractRepository
     $qb = $this->createQueryBuilder('c')
        ->select('c');
 
+    // Tìm kiếm theo ID
     if (isset($searchData['id']) && StringUtil::isNotBlank($searchData['id'])) {
         //Loại bỏ kí tự trống
         $id = preg_replace('/[　]+/u', '', $searchData['id']);
@@ -76,6 +77,7 @@ class CompanyRepository extends AbstractRepository
             ->setParameter('id', '%'.$id.'%');
     }
 
+    // Tìm kiếm theo tên
     if (isset($searchData['name']) && StringUtil::isNotBlank($searchData['name'])) {
         //Loại bỏ kí tự trống
         $clean_key_multi = preg_replace('/[　]+/u', '', $searchData['name']);

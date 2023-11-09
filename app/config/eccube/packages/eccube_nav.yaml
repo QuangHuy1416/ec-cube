@@ -48,11 +48,15 @@ parameters:
                 customer_edit:
                     name: admin.customer.customer_registration
                     url: admin_customer_new
-                customer_company:
-                    name: admin.customer.company_registration
+        company:
+            name: admin.company.company_management
+            icon: fa-users
+            children:
+                company_edit:
+                    name: admin.company.company_registration
                     url: admin_company_new
-                customer_company_list:
-                    name: admin.customer.company_list
+                company_list:
+                    name: admin.company.company_list
                     url: admin_company
         content:
             name: admin.content.contents_management

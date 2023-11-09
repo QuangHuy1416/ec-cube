@@ -15,7 +15,6 @@ namespace Eccube\Controller\Admin\Customer;
 
 use Eccube\Controller\AbstractController;
 use Eccube\Event\EccubeEvents;
-use Eccube\Common\EccubeConfig;
 use Eccube\Event\EventArgs;
 use Eccube\Entity\Company;
 use Eccube\Form\Type\Admin\CompanyType;
