@@ -8957,7 +8957,7 @@ Styleguide 22.1
 
   .ec-off1Grid{
     display: -ms-flexbox;
-    display: flex;
+    /* display: flex; */
   }
 
   .ec-off1Grid .ec-off1Grid__cell{
