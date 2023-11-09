@@ -17,6 +17,7 @@ use Eccube\Controller\AbstractController;
 use Eccube\Event\EccubeEvents;
 use Eccube\Common\EccubeConfig;
 use Eccube\Event\EventArgs;
+use Eccube\Entity\Company;
 use Eccube\Form\Type\Admin\CompanyType;
 use Eccube\Repository\CompanyRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -26,21 +27,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class CompanyEditController extends AbstractController
 {
     /**
-     * @var EccubeConfig
-     */
-    protected $eccubeConfig;
-    /**
      * @var CompanyRepository
      */
     protected $companyRepository;
 
     public function __construct(
-        CompanyRepository $companyRepository,
-        EccubeConfig $eccubeConfig
+        CompanyRepository $companyRepository
     ) {
         $this->companyRepository = $companyRepository;
-        $this->eccubeConfig = $eccubeConfig;
     }
+    const MAX_LEN = 6;
 
    	/**
      * @Route("/%eccube_admin_route%/com/new", name="admin_company_new")
@@ -50,16 +46,16 @@ class CompanyEditController extends AbstractController
     public function index(Request $request, $id = null)
     {
         // Check update
-        if (is_numeric($id) && strlen($id) <= $this->eccubeConfig['eccube_id_company_max_len']) {
+        if (is_numeric($id) && strlen($id) <= CompanyEditController::MAX_LEN) {
             $Company = $this->companyRepository
                 ->find($id);
 
             if (is_null($Company)) {
-                $Company = new \Eccube\Entity\Company();
+                $Company = new Company();
             }
         // Create
         } else {
-            $Company = new \Eccube\Entity\Company();
+            $Company = new Company();
         }
 
         //Tạo from company

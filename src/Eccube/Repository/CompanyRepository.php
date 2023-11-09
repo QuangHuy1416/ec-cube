@@ -68,30 +68,23 @@ class CompanyRepository extends AbstractRepository
     $qb = $this->createQueryBuilder('c')
        ->select('c');
 
-    if (isset($searchData['multi']) && StringUtil::isNotBlank($searchData['multi'])) {
-        //スペース除去
-        $clean_key_multi = preg_replace('/[　]+/u', '', $searchData['multi']);
-        $id = preg_match('/^\d{0,10}$/', $clean_key_multi) ? $clean_key_multi : null;
+    if (isset($searchData['id']) && StringUtil::isNotBlank($searchData['id'])) {
+        //Loại bỏ kí tự trống
+        $id = preg_replace('/[　]+/u', '', $searchData['id']);
+        $qb
+            ->andWhere('c.id LIKE :id')
+            ->setParameter('id', '%'.$id.'%');
+    }
+
+    if (isset($searchData['name']) && StringUtil::isNotBlank($searchData['name'])) {
+        //Loại bỏ kí tự trống
+        $clean_key_multi = preg_replace('/[　]+/u', '', $searchData['name']);
         $space = $this->eccubeConfig->get('eccube_space');
         $qb
-            ->andWhere('c.id LIKE :id OR CONCAT(c.name, :space) LIKE :name ')
-            ->setParameter('id', '%'.$id.'%')
+            ->andWhere('CONCAT(c.name, :space) LIKE :name ')
             ->setParameter('name', '%'.$clean_key_multi.'%')
             ->setParameter('space', $space);
-        }
-        // create_date
-         if (!empty($searchData['create_date_start']) && $searchData['create_date_start']) {
-            $qb
-                ->andWhere('c.create_date >= :create_date_start')
-                ->setParameter('create_date_start', $searchData['create_date_start']);
-        }
-
-        // update_date
-        if (!empty($searchData['update_date_start']) && $searchData['update_date_start']) {
-            $qb
-                ->andWhere('c.update_date >= :update_date_start')
-                ->setParameter('update_date_start', $searchData['update_date_start']);
-        }
+    }
         
         // Order By
         $qb->addOrderBy('c.update_date', 'DESC');

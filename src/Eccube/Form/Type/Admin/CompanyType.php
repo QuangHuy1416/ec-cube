@@ -32,6 +32,9 @@ class CompanyType extends AbstractType
      *
      * @param EccubeConfig $eccubeConfig
      */
+
+    const MAX_LEN = 6;
+
     public function __construct(EccubeConfig $eccubeConfig)
     {
         $this->eccubeConfig = $eccubeConfig;
@@ -47,7 +50,7 @@ class CompanyType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new Assert\Length([
-                        'max' => $this->eccubeConfig['eccube_id_company_max_len'],
+                        'max' => CompanyType::MAX_LEN,
                     ]),
                     new Assert\Type([
                         'type' => 'numeric',

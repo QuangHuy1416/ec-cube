@@ -43,39 +43,19 @@ class SearchCompanyType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $months = range(1, 12);
         $builder
-            // 会員ID・メールアドレス・名前・名前(フリガナ)
-            ->add('multi', TextType::class, [
-                'label' => 'admin.customer.multi_search_label',
+            // Mã công ty
+            ->add('id', TextType::class, [
                 'required' => false,
                 'constraints' => [
                     new Assert\Length(['max' => $this->eccubeConfig['eccube_stext_len']]),
                 ],
             ])
-            ->add('create_date_start', DateType::class, [
-                'label' => 'admin.common.create_date__start',
+            // Tên công ty
+            ->add('name', TextType::class, [
                 'required' => false,
-                'input' => 'datetime',
-                'widget' => 'single_text',
-                'format' => $this->eccubeConfig->get('eccube_form_date_format'),
-                'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
-                'attr' => [
-                    'maxDate' => '#'.$this->getBlockPrefix().'_create_date_end',
-                    'data-toggle' => 'datepicker',
-                ],
-            ])
-            ->add('update_date_start', DateType::class, [
-                'label' => 'admin.common.update_date__start',
-                'required' => false,
-                'input' => 'datetime',
-                'widget' => 'single_text',
-                'format' => $this->eccubeConfig->get('eccube_form_date_format'),
-                'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
-                'attr' => [
-                    'maxDate' => '#'.$this->getBlockPrefix().'_update_date_end',
-                    'data-toggle' => 'datepicker',
-
+                'constraints' => [
+                    new Assert\Length(['max' => $this->eccubeConfig['eccube_stext_len']]),
                 ],
             ])
         ;
