@@ -68,6 +68,7 @@ parameters:
     eccube_default_page_count: 50
     eccube_admin_product_stock_status: 3
     eccube_customer_reset_expire: 10
+    shop_api_business_id: '00001002'
     # CSVの区切り文字(タブ区切りにしたい場合は'\t'ではなく'    'で設定する
     eccube_csv_export_separator: ,
     # 出力エンコーディング
