@@ -38,7 +38,6 @@ class CustomerGroupController extends AbstractController
      */
     protected $customerRepository;
 
-
     /**
      * @var EccubeConfig
      */
@@ -55,7 +54,8 @@ class CustomerGroupController extends AbstractController
         $this->shop_api_business_id = $eccubeConfig['shop_api_business_id'];
     }
     /**
-     * @Route("/addCustomerGroup")
+     * @Route("/addCustomerGroup", methods={"POST"})
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function index()
     {
@@ -63,7 +63,7 @@ class CustomerGroupController extends AbstractController
         $accountId = $_POST['accountId'];
         $companyId = $_POST['companyId'];
         if( $this->shop_api_business_id !== $_POST['businessId'] ){
-            return 1;
+            return $this->json(['result' => 1, 'resultCode'=> '処理結果コード　※APIキー認証エラーの場合は「API KEY NOT AUTH」'], 400);
         }
         $company = $this->companyRepository->find($companyId);
         $customer = $this->customerRepository->find($accountId);
