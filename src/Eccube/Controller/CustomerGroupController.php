@@ -13,18 +13,13 @@
 
  namespace Eccube\Controller;
 
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use Doctrine\ORM\QueryBuilder;
-use Eccube\Common\Constant;
 use Eccube\Common\EccubeConfig;
 use Eccube\Repository\CompanyRepository;
 use Eccube\Repository\CustomerRepository;
+use Eccube\Repository\CustomerGroupRepository;
 use Eccube\Controller\AbstractController;
-use Eccube\Event\EventArgs;
-use Eccube\Util\FormUtil;
-use Symfony\Component\HttpFoundation\Request;
+use Eccube\Entity\CustomerGroup;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
 
 class CustomerGroupController extends AbstractController
 {
@@ -39,6 +34,11 @@ class CustomerGroupController extends AbstractController
     protected $customerRepository;
 
     /**
+     * @var CustomerGroupRepository
+     */
+    protected $customerGroupRepository;
+
+    /**
      * @var EccubeConfig
      */
     protected $shop_api_business_id;
@@ -46,31 +46,89 @@ class CustomerGroupController extends AbstractController
     public function __construct(
         CompanyRepository $companyRepository,
         CustomerRepository $customerRepository,
+        CustomerGroupRepository $customerGroupRepository,
         EccubeConfig $eccubeConfig
     )
     {
         $this->companyRepository = $companyRepository;
         $this->customerRepository = $customerRepository;
+        $this->customerGroupRepository = $customerGroupRepository;
         $this->shop_api_business_id = $eccubeConfig['shop_api_business_id'];
     }
+
     /**
+     * Method này dùng để thực hiện đăng ký company cho customer
+     * 
      * @Route("/addCustomerGroup", methods={"POST"})
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function index()
+    public function addCustomerGroup()
     {
-        $businessId = $_POST['businessId'];
-        $accountId = $_POST['accountId'];
-        $companyId = $_POST['companyId'];
+        // Kiểm tra businessId có hợp lệ hay không
         if( $this->shop_api_business_id !== $_POST['businessId'] ){
-            return $this->json(['result' => 1, 'resultCode'=> '処理結果コード　※APIキー認証エラーの場合は「API KEY NOT AUTH」'], 400);
+            // Ghi log lỗi
+            log_info('API KEY NOT AUTH', [$_POST['businessId']]);
+            return $this->json(['result' => 1, 'resultCode'=> 'businessId NOT FOUND']);
         }
+
+        // Get accountId
+        $accountId = $_POST['accountId'];
+        
+        // Get companyId
+        $companyId = $_POST['companyId'];
+
+        // Tìm kiếm company
         $company = $this->companyRepository->find($companyId);
-        $customer = $this->customerRepository->find($accountId);
-        if($company && $customer)
-        {
-            echo $businessId . $accountId . $companyId ;
+
+        // Kiểm tra tồn tại của customer, company, customerGroup
+        if(!$company){
+            // Ghi log lỗi
+            log_info('Register customer group fail.', [$companyId]);
+            return $this->json(['result' => 1, 'resultCode'=> 'Company not exist.']);
         }
-        die;
+
+        // Tìm kiếm customer
+        $customer = $this->customerRepository->find($accountId);
+
+        // Kiểm tra tồn tại của customer, company, customerGroup
+        if(!$customer){
+            // Ghi log lỗi
+            log_info('Register customer group fail.', [$accountId]);
+            return $this->json(['result' => 1, 'resultCode'=> 'Customer not exist.']);
+        }
+
+        // Tìm kiếm customer group theo accountId
+        $customerGroup = $this->customerGroupRepository->find($accountId);
+
+        // Kiểm tra tồn tại của customer
+        if($customerGroup){
+            // Ghi log lỗi
+            log_info('Register customer group fail.', [$customerGroup->getAccountId()]);
+            return $this->json(['result' => 1, 'resultCode'=> 'Customer Group có account_id = ' . $accountId . ' đã tồn tại.']);
+        }
+
+        // Tìm kiếm customer group theo companyId
+        $customerGroup = $this->customerGroupRepository->findBy(['company_id'=> $companyId]);
+
+        if($customerGroup){
+            // Ghi log lỗi
+            log_info('Register customer group fail.', [$companyId]);
+            return $this->json(['result' => 1, 'resultCode'=> 'Customer Group có company_id = ' . $companyId .' đã tồn tại.']);
+        }
+
+        //Create customerGroup
+        $customerGroup = new CustomerGroup();
+
+        $customerGroup->setAccountId($accountId);
+        $customerGroup->setCompanyId($companyId);
+
+        log_info('Start register customer group.', [$customerGroup->getAccountId()]);
+
+        $this->entityManager->persist($customerGroup);
+        $this->entityManager->flush();
+
+        log_info('Register customer group success.', [$customerGroup->getAccountId()]);
+
+        return $this->json(['result' => 0, 'resultCode'=> 'Register customer group success.']);
     }
 }

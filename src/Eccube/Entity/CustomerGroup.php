@@ -15,39 +15,30 @@ namespace Eccube\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-if (!class_exists('\Eccube\Entity\Company')) {
+if (!class_exists('\Eccube\Entity\CustomerGroup')) {
     /**
-     * Company
+     * CustomerGroup
      *
      * @ORM\Table(name="dtb_customer_group")
      * @ORM\InheritanceType("SINGLE_TABLE")
      * @ORM\DiscriminatorColumn(name="discriminator_type", type="string", length=255)
      * @ORM\HasLifecycleCallbacks()
+     * @ORM\Entity(repositoryClass="Eccube\Repository\CustomerGroupRepository")
      */
     class CustomerGroup extends \Eccube\Entity\AbstractEntity
     {
         /**
          * @var int
          *
-         * @ORM\Column(name="id", type="int")
-         * @ORM\GeneratedValue(strategy="AUTO")
+         * @ORM\Column(name="account_id", type="integer")
          * @ORM\Id
          */
-        private $id;
-
-        /**
-         * @var int
-         *
-         * @ORM\Column(name="customer_id", type="int")
-         * @ORM\Id
-         */
-        private $customer_id;
+        private $account_id;
 
         /**
          * @var string
          *
          * @ORM\Column(name="company_id", type="string", length=255)
-         * @ORM\Id
          */
         private $company_id;
 
@@ -65,53 +56,28 @@ if (!class_exists('\Eccube\Entity\Company')) {
          */
         private $update_date;
 
-
         /**
-         * Set id.
+         * Set accountId.
          *
-         * @param string $id
+         * @param int $accountId
          *
          * @return CustomerGroup
          */
-        public function setId($id)
+        public function setAccountId($accountId)
         {
-            $this->id = $id;
+            $this->account_id = $accountId;
 
             return $this;
         }
 
         /**
-         * Get id.
-         *
-         * @return string
-         */
-        public function getId()
-        {
-            return $this->id;
-        }
-
-        /**
-         * Set customerId.
-         *
-         * @param int $customerId
-         *
-         * @return CustomerGroup
-         */
-        public function setCustomerId($customerId)
-        {
-            $this->customer_id = $customerId;
-
-            return $this;
-        }
-
-        /**
-         * Get customerId.
+         * Get accountId.
          *
          * @return int
          */
-        public function getCustomerId()
+        public function getAccountId()
         {
-            return $this->customer_id;
+            return $this->account_id;
         }
 
           /**
