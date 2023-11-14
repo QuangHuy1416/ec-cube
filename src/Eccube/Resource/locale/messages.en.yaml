@@ -896,6 +896,13 @@ admin.customer.customer_list: All Customers
 admin.customer.customer_registration: Add Customer
 admin.customer.customer_address_registration: Register Delivery Addresses
 
+admin.company.company_management: Company
+admin.company.company_registration: Register Affiliated Company
+admin.company.company_all: Affiliated Company
+admin.company.company_info: Affiliated Compay Information
+admin.common.company_code: ID Company
+admin.company.company_list: Company List
+
 # Labels / Messages
 admin.customer.customer_id: Customer ID
 admin.customer.customer_info: Customer Info

@@ -19,6 +19,7 @@ use Eccube\Repository\CustomerRepository;
 use Eccube\Repository\CustomerGroupRepository;
 use Eccube\Controller\AbstractController;
 use Eccube\Entity\CustomerGroup;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CustomerGroupController extends AbstractController
@@ -59,23 +60,24 @@ class CustomerGroupController extends AbstractController
     /**
      * Method này dùng để thực hiện đăng ký company cho customer
      * 
-     * @Route("/addCustomerGroup", methods={"POST"})
+     * @Route("/addCustomerGroup",  name="shop_api_add_customer_group", methods={"POST"})
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function addCustomerGroup()
+    public function addCustomerGroup(Request $request)
     {
+        $businessId = $request->get("businessId");
         // Kiểm tra businessId có hợp lệ hay không
-        if( $this->shop_api_business_id !== $_POST['businessId'] ){
+        if( $this->shop_api_business_id !== $businessId ){
             // Ghi log lỗi
-            log_info('API KEY NOT AUTH', [$_POST['businessId']]);
+            log_info('API KEY NOT AUTH', [$businessId]);
             return $this->json(['result' => 1, 'resultCode'=> 'businessId NOT FOUND']);
         }
 
         // Get accountId
-        $accountId = $_POST['accountId'];
+        $accountId = $request->get("accountId");
         
         // Get companyId
-        $companyId = $_POST['companyId'];
+        $companyId = $request->get("companyId");
 
         // Tìm kiếm company
         $company = $this->companyRepository->find($companyId);
