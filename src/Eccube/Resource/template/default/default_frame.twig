@@ -45,6 +45,10 @@ file that was distributed with this source code.
                 }
             });
         });
+        
+        $('[data-spy="scroll"]').each(function () {
+            var $spy = $(this).scrollspy('refresh')
+        });
     </script>
     {# Layout: HEAD #}
     {% if Layout.Head %}

@@ -10,37 +10,138 @@ file that was distributed with this source code.
 #}
 
 <div class="ec-role">
-    <div class="ec-newItemRole">
-        <div class="ec-newItemRole__list">
-            <div class="ec-newItemRole__listItem">
-                <div class="ec-newItemRole__listItemHeading ec-secHeading--tandem">
-                    <span class="ec-secHeading__en">{{ 'front.block.new_item.title__en'|trans }}</span>
-                    <span class="ec-secHeading__line"></span>
-                    <span class="ec-secHeading__ja">{{ 'front.block.new_item.title__ja'|trans }}</span>
-                    <a class="ec-inlineBtn--top" href="{{ url('product_list') }}">{{ 'front.block.new_item.more'|trans }}</a>
+    <div class="bs-example" data-example-id="embedded-scrollspy">
+        <nav class="navbar navbar-default navbar-static" id="navbar-example2">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button class="collapsed navbar-toggle" type="button" data-toggle="collapse"
+                        data-target=".bs-example-js-navbar-scrollspy"> <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" class="navbar-brand">Scrollspy Bootstrap</a>
+                </div>
+                <div class="collapse navbar-collapse bs-example-js-navbar-scrollspy">
+                    <ul class="nav navbar-nav">
+                        <li class=""><a href="#div1">Div 1</a>
+                        </li>
+                        <li class=""><a href="#div2">Div 2</a>
+                        </li>
+                        <li class=""><a href="#div3">Div 3</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="ec-newItemRole__listItem">
-                <a href="{{ url('product_detail', {'id': '1'}) }}">
-                    <img src="{{ asset('cube-1.png', 'save_image') }}">
-                    <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_1_name'|trans }}</p>
-                    <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_1_price'|trans }}</p>
-                </a>
-            </div>
-            <div class="ec-newItemRole__listItem">
-                <a href="{{ url('product_detail', {'id': '2'}) }}">
-                    <img src="{{ asset('sand-1.png', 'save_image') }}">
-                    <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_2_name'|trans }}</p>
-                    <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_2_price'|trans }}</p>
-                </a>
-            </div>
-            <div class="ec-newItemRole__listItem">
-                <a href="{{ url('product_detail', {'id': '1'}) }}">
-                    <img src="{{ asset(''|no_image_product , 'save_image') }}">
-                    <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_3_name'|trans }}</p>
-                    <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_3_price'|trans }}</p>
-                </a>
+        </nav>
+        <div class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+            <div class="ec-newItemRole">
+                <div id="div1" class="ec-newItemRole__list">
+                    <div class="ec-newItemRole__listItem">
+                        <div class="ec-newItemRole__listItemHeading ec-secHeading--tandem">
+                            <span class="ec-secHeading__en">{{ 'front.block.new_item.title__en'|trans }}</span>
+                            <span class="ec-secHeading__line"></span>
+                            <span class="ec-secHeading__ja">{{ 'front.block.new_item.title__ja'|trans }}</span>
+                            <a class="ec-inlineBtn--top"
+                                href="{{ url('product_list') }}">{{ 'front.block.new_item.more'|trans }}</a>
+                        </div>
+                    </div>
+                    <div class="ec-newItemRole__listItem">
+                        <a href="{{ url('product_detail', {'id': '1'}) }}">
+                            <img src="{{ asset('cube-1.png', 'save_image') }}">
+                            <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_1_name'|trans }}</p>
+                            <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_1_price'|trans }}</p>
+                        </a>
+                    </div>
+                    <div class="ec-newItemRole__listItem">
+                        <a href="{{ url('product_detail', {'id': '2'}) }}">
+                            <img src="{{ asset('sand-1.png', 'save_image') }}">
+                            <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_2_name'|trans }}</p>
+                            <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_2_price'|trans }}</p>
+                        </a>
+                    </div>
+                    <div class="ec-newItemRole__listItem">
+                        <a href="{{ url('product_detail', {'id': '2'}) }}">
+                            <img src="{{ asset('sand-1.png', 'save_image') }}">
+                            <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_2_name'|trans }}</p>
+                            <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_2_price'|trans }}</p>
+                        </a>
+                    </div>
+                    {#
+                    <div class="ec-newItemRole__listItem">
+                        <a href="{{ url('product_detail', {'id': '1'}) }}">
+                            <img src="{{ asset(''|no_image_product , 'save_image') }}">
+                            <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_3_name'|trans }}</p>
+                            <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_3_price'|trans }}</p>
+                        </a>
+                    </div>
+                    #}
+                </div>
+                <div id="div2" class="ec-newItemRole__list">
+                    <div class="ec-newItemRole__listItem">
+                        <div class="ec-newItemRole__listItemHeading ec-secHeading--tandem">
+                            <span class="ec-secHeading__en">{{ 'front.block.new_item.title__en'|trans }}</span>
+                            <span class="ec-secHeading__line"></span>
+                            <span class="ec-secHeading__ja">{{ 'front.block.new_item.title__ja'|trans }}</span>
+                            <a class="ec-inlineBtn--top"
+                                href="{{ url('product_list') }}">{{ 'front.block.new_item.more'|trans }}</a>
+                        </div>
+                    </div>
+                    <div class="ec-newItemRole__listItem">
+                        <a href="{{ url('product_detail', {'id': '1'}) }}">
+                            <img src="{{ asset('cube-1.png', 'save_image') }}">
+                            <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_1_name'|trans }}</p>
+                            <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_1_price'|trans }}</p>
+                        </a>
+                    </div>
+                    <div class="ec-newItemRole__listItem">
+                        <a href="{{ url('product_detail', {'id': '2'}) }}">
+                            <img src="{{ asset('sand-1.png', 'save_image') }}">
+                            <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_2_name'|trans }}</p>
+                            <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_2_price'|trans }}</p>
+                        </a>
+                    </div>
+                    <div class="ec-newItemRole__listItem">
+                        <a href="{{ url('product_detail', {'id': '2'}) }}">
+                            <img src="{{ asset('sand-1.png', 'save_image') }}">
+                            <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_2_name'|trans }}</p>
+                            <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_2_price'|trans }}</p>
+                        </a>
+                    </div>
+                </div>
+                <div id="div3" class="ec-newItemRole__list">
+                    <div class="ec-newItemRole__listItem">
+                        <div class="ec-newItemRole__listItemHeading ec-secHeading--tandem">
+                            <span class="ec-secHeading__en">{{ 'front.block.new_item.title__en'|trans }}</span>
+                            <span class="ec-secHeading__line"></span>
+                            <span class="ec-secHeading__ja">{{ 'front.block.new_item.title__ja'|trans }}</span>
+                            <a class="ec-inlineBtn--top"
+                                href="{{ url('product_list') }}">{{ 'front.block.new_item.more'|trans }}</a>
+                        </div>
+                    </div>
+                    <div class="ec-newItemRole__listItem">
+                        <a href="{{ url('product_detail', {'id': '1'}) }}">
+                            <img src="{{ asset('cube-1.png', 'save_image') }}">
+                            <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_1_name'|trans }}</p>
+                            <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_1_price'|trans }}</p>
+                        </a>
+                    </div>
+                    <div class="ec-newItemRole__listItem">
+                        <a href="{{ url('product_detail', {'id': '2'}) }}">
+                            <img src="{{ asset('sand-1.png', 'save_image') }}">
+                            <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_2_name'|trans }}</p>
+                            <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_2_price'|trans }}</p>
+                        </a>
+                    </div>
+                    <div class="ec-newItemRole__listItem">
+                        <a href="{{ url('product_detail', {'id': '2'}) }}">
+                            <img src="{{ asset('sand-1.png', 'save_image') }}">
+                            <p class="ec-newItemRole__listItemTitle">{{ 'front.block.new_item.item_2_name'|trans }}</p>
+                            <p class="ec-newItemRole__listItemPrice">{{ 'front.block.new_item.item_2_price'|trans }}</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+
 </div>
