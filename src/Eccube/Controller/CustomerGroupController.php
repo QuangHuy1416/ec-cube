@@ -19,6 +19,7 @@ use Eccube\Repository\CustomerRepository;
 use Eccube\Repository\CustomerGroupRepository;
 use Eccube\Controller\AbstractController;
 use Eccube\Entity\CustomerGroup;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -74,15 +75,15 @@ class CustomerGroupController extends AbstractController
         }
 
         // Get accountId
-        $accountId = $request->get("accountId");
+        $accountId = trim($request->get("accountId"));
         
         // Get companyId
-        $companyId = $request->get("companyId");
+        $companyId = trim($request->get("companyId"));
 
         // Tìm kiếm company
         $company = $this->companyRepository->find($companyId);
 
-        // Kiểm tra tồn tại của customer, company, customerGroup
+        // Kiểm tra tồn tại company
         if(!$company){
             // Ghi log lỗi
             log_info('Register customer group fail.', [$companyId]);
@@ -92,7 +93,7 @@ class CustomerGroupController extends AbstractController
         // Tìm kiếm customer
         $customer = $this->customerRepository->find($accountId);
 
-        // Kiểm tra tồn tại của customer, company, customerGroup
+        // Kiểm tra tồn tại của customer
         if(!$customer){
             // Ghi log lỗi
             log_info('Register customer group fail.', [$accountId]);
@@ -104,9 +105,31 @@ class CustomerGroupController extends AbstractController
 
         // Kiểm tra tồn tại của customer
         if($customerGroup){
-            // Ghi log lỗi
-            log_info('Register customer group fail.', [$customerGroup->getAccountId()]);
-            return $this->json(['result' => 1, 'resultCode'=> 'Customer Group có account_id = ' . $accountId . ' đã tồn tại.']);
+            // Kiểm tra companyId của customerGroup có trùng với companyId truyền vào hay không
+            if($customerGroup->getCompanyId() === $companyId){
+                // Ghi log lỗi
+                log_info('Register customer group fail.', [$customerGroup->getAccountId()]);
+                return $this->json(['result' => 1, 'resultCode'=> 'Customer Group có account_id = ' . $accountId . ' đã tồn tại.']);
+            } else {
+                try{
+                    // Update customerGroup
+                    $customerGroup->setCompanyId($companyId);
+
+                    log_info('Start update customer group.', [$customerGroup->getAccountId()]);
+    
+                    $this->entityManager->persist($customerGroup);
+                    $this->entityManager->flush();
+    
+                    log_info('Update customer group success.', [$customerGroup->getAccountId()]);
+    
+                    return $this->json(['result' => 0, 'resultCode'=> 'Update customer group success.']);
+                }
+                catch(Exception $e){
+                    //Ghi log lỗi
+                    log_info('Update customer group fail.' . $e, [$customerGroup->getAccountId()]);
+                    return $this->json(['result' => 1, 'resultCode'=> 'Update thất bại! Customer Group có company_id = ' . $companyId .' đã tồn tại.']);
+                }
+            }
         }
 
         // Tìm kiếm customer group theo companyId
