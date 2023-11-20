@@ -6060,6 +6060,10 @@ Styleguide 13.2.1
       height: 150px;
       margin-bottom: 10px;
       text-align: center; }
+    .ec-shelfGrid__item-image-home {
+      height: 150px;
+      margin-bottom: 10px;
+      text-align: center; }
     .ec-shelfGrid .ec-shelfGrid__item img {
       width: auto;
       max-height: 100%; }
@@ -8698,6 +8702,10 @@ Styleguide 22.1
     height: 250px;
   }
 
+  .ec-shelfGrid__item-image-home{
+    height: 125px;
+  }
+
   .ec-shelfGrid .ec-shelfGrid__item{
     padding: 0 16px;
     width: 25%;
@@ -8977,4 +8985,8 @@ Styleguide 22.1
   }
 }
 
+.pre-scrollable {
+  margin-top: 20px;
+  max-height: 675px;
+}
 /*# sourceMappingURL=maps/style.css.map */
