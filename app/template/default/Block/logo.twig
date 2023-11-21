@@ -12,8 +12,8 @@ file that was distributed with this source code.
     <div class="ec-headerRole__title">
         <div class="ec-headerTitle">
             <div class="ec-headerTitle__title">
-                {% if subtitle is defined and subtitle is not empty %}
-                <h1>
+                {% if subtitle is defined and subtitle is not empty or title is defined and title is not empty%}
+                    <h1>
                         <a href="{{ url('homepage') }}">
                             {{ BaseInfo.shop_name }}
                         </a>
