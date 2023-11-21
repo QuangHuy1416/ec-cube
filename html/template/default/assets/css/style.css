@@ -8997,12 +8997,12 @@ Styleguide 22.1
   text-align: center;
 }
 
-.price02-default{
+.price02-default-home{
   margin: 0px 30px;
   border: 1px solid #33A8D0;
   border-radius: 10px;
 }
-.price02-default:hover{
+.price02-default-home:hover{
   background-color: #000;
   color: #f8f8f8;
 }
