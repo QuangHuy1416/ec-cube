@@ -12,11 +12,19 @@ file that was distributed with this source code.
     <div class="ec-headerRole__title">
         <div class="ec-headerTitle">
             <div class="ec-headerTitle__title">
+                {% if subtitle is defined and subtitle is not empty %}
                 <h1>
-                    <a href="{{ url('homepage') }}">
-                        {{ BaseInfo.shop_name }}
-                    </a>
-                </h1>
+                        <a href="{{ url('homepage') }}">
+                            {{ BaseInfo.shop_name }}
+                        </a>
+                    </h1>
+                {% else %}
+                    <h1>
+                        <a href="{{ url('homepage') }}">
+                            {{ 'front.product.product_list'|trans }}
+                        </a>
+                    </h1>
+                {% endif %}
             </div>
         </div>
     </div>

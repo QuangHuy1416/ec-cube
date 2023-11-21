@@ -15,7 +15,7 @@ file that was distributed with this source code.
             <ul class="ec-shelfGrid">
                 {% for Product in products %}
                     <li class="ec-shelfGrid__item">
-                    <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                        <a href="{{ url('product_detail', {'id': Product.id}) }}">
                             <p class="ec-shelfGrid__item-image-home">
                                 <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}">
                             </p>

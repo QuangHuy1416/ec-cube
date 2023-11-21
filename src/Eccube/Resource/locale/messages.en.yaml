@@ -258,6 +258,7 @@ front.product.all_category: All
 front.product.search_result: Search Results
 front.product.all_products: All Products
 
+front.product.product_list: Danh sách sản phẩm
 front.product.search__category_not_found: No category is found
 front.product.search__product_not_found: No product is found
 front.product.search_result__keyword:  Search results for ''%name%''
