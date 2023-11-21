@@ -143,13 +143,18 @@ class EccubeExtension extends AbstractExtension
      */
     public function getPriceFilter($number, $isWithoutIcon = false)
     {
-        $locale = $this->eccubeConfig['locale'];
+        $locale = $this->eccubeConfig['locale']; 
         $currency = $this->eccubeConfig['currency'];
+
+        if($currency === "VND") {
+            $isWithoutIcon = true;
+        }
+        
         $formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
         if ($isWithoutIcon) {
             return \NumberFormatter::create($locale, \NumberFormatter::DECIMAL)->format($number);
         }
-
+        
         return $formatter->formatCurrency($number, $currency);
     }
 

@@ -51,7 +51,9 @@ class ShowProductController extends AbstractController
                 'products' => $products,
             ];
         } else {
-            
+            return [
+                'products' => null,
+            ];
         }
     }
 }
