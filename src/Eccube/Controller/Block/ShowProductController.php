@@ -50,6 +50,8 @@ class ShowProductController extends AbstractController
             return [
                 'products' => $products,
             ];
+        } else {
+            
         }
     }
 }

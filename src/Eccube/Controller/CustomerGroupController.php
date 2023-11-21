@@ -19,7 +19,6 @@ use Eccube\Repository\CustomerRepository;
 use Eccube\Repository\CustomerGroupRepository;
 use Eccube\Controller\AbstractController;
 use Eccube\Entity\CustomerGroup;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -43,7 +42,7 @@ class CustomerGroupController extends AbstractController
     /**
      * @var EccubeConfig
      */
-    protected $shop_api_business_id;
+    protected $eccubeConfig;
 
     public function __construct(
         CompanyRepository $companyRepository,
@@ -55,7 +54,7 @@ class CustomerGroupController extends AbstractController
         $this->companyRepository = $companyRepository;
         $this->customerRepository = $customerRepository;
         $this->customerGroupRepository = $customerGroupRepository;
-        $this->shop_api_business_id = $eccubeConfig['shop_api_business_id'];
+        $this->eccubeConfig = $eccubeConfig;
     }
 
     /**
@@ -68,7 +67,7 @@ class CustomerGroupController extends AbstractController
     {
         $businessId = $request->get("businessId");
         // Kiểm tra businessId có hợp lệ hay không
-        if( $this->shop_api_business_id !== $businessId ){
+        if( $this->eccubeConfig['shop_api_business_id'] !== $businessId ){
             // Ghi log lỗi
             log_info('API KEY NOT AUTH', [$businessId]);
             return $this->json(['result' => 1, 'resultCode'=> 'businessId NOT FOUND']);
@@ -111,7 +110,7 @@ class CustomerGroupController extends AbstractController
                 log_info('Register customer group fail.', [$customerGroup->getAccountId()]);
                 return $this->json(['result' => 1, 'resultCode'=> 'Customer Group có account_id = ' . $accountId . ' đã tồn tại.']);
             } else {
-                try{
+                try {
                     // Update customerGroup
                     $customerGroup->setCompanyId($companyId);
 
@@ -123,8 +122,7 @@ class CustomerGroupController extends AbstractController
                     log_info('Update customer group success.', [$customerGroup->getAccountId()]);
     
                     return $this->json(['result' => 0, 'resultCode'=> 'Update customer group success.']);
-                }
-                catch(Exception $e){
+                } catch(\Exception $e) {
                     //Ghi log lỗi
                     log_info('Update customer group fail.' . $e, [$customerGroup->getAccountId()]);
                     return $this->json(['result' => 1, 'resultCode'=> 'Update thất bại! Customer Group có company_id = ' . $companyId .' đã tồn tại.']);
@@ -141,19 +139,26 @@ class CustomerGroupController extends AbstractController
             return $this->json(['result' => 1, 'resultCode'=> 'Customer Group có company_id = ' . $companyId .' đã tồn tại.']);
         }
 
-        //Create customerGroup
-        $customerGroup = new CustomerGroup();
+        try {
+            //Create customerGroup
+            $customerGroup = new CustomerGroup();
 
-        $customerGroup->setAccountId($accountId);
-        $customerGroup->setCompanyId($companyId);
+            $customerGroup->setAccountId($accountId);
+            $customerGroup->setCompanyId($companyId);
 
-        log_info('Start register customer group.', [$customerGroup->getAccountId()]);
+            log_info('Start register customer group.', [$customerGroup->getAccountId()]);
 
-        $this->entityManager->persist($customerGroup);
-        $this->entityManager->flush();
+            $this->entityManager->persist($customerGroup);
+            $this->entityManager->flush();
 
-        log_info('Register customer group success.', [$customerGroup->getAccountId()]);
+            log_info('Finish register customer group.', [$customerGroup->getAccountId()]);
 
-        return $this->json(['result' => 0, 'resultCode'=> 'Register customer group success.']);
+            return $this->json(['result' => 0, 'resultCode'=> 'Register customer group success.']);
+        } catch(\Exception $e) {
+            // Ghi log lỗi
+            log_info('Register customer group fail.' . $e, [$accountId]);
+            return $this->json(['result' => 1, 'resultCode'=> 'Register customer group fail.' . $e]);
+        }
+        
     }
 }
