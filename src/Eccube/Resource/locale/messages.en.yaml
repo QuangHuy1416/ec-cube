@@ -19,7 +19,7 @@ common.go_to_top: Back to Home
 common.go_to_cart: Proceed to Cart
 common.go_to_confirm: Review
 common.go_to_next: Next
-common.move_to_page_top: Page top
+#common.move_to_page_top: Page top
 common.prev: Previous
 common.next: Next
 common.first: First
@@ -257,7 +257,7 @@ front.mypage.withdraw_complete_message__body: |
 front.product.all_category: All
 front.product.search_result: Search Results
 front.product.all_products: All Products
-
+common.move_to_page_top: Trang chủ
 front.product.product_list: Danh sách sản phẩm
 front.product.search__category_not_found: No category is found
 front.product.search__product_not_found: No product is found

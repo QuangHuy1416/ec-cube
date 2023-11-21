@@ -146,12 +146,8 @@ class EccubeExtension extends AbstractExtension
         $locale = $this->eccubeConfig['locale']; 
         $currency = $this->eccubeConfig['currency'];
 
-        if($currency === "VND") {
-            $isWithoutIcon = true;
-        }
-        
         $formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
-        if ($isWithoutIcon) {
+        if ($currency === "VND") {
             return \NumberFormatter::create($locale, \NumberFormatter::DECIMAL)->format($number);
         }
         
