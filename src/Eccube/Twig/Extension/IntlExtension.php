@@ -29,6 +29,7 @@ class IntlExtension extends AbstractExtension
             new TwigFilter('date_min', [$this, 'date_min'], ['needs_environment' => true]),
             new TwigFilter('date_sec', [$this, 'date_sec'], ['needs_environment' => true]),
             new TwigFilter('date_day_with_weekday', [$this, 'date_day_with_weekday'], ['needs_environment' => true]),
+            new TwigFilter('customDateTimeFormat', [$this, 'customDateTimeFormat']),
         ];
     }
 
@@ -116,5 +117,20 @@ class IntlExtension extends AbstractExtension
         );
 
         return $date_day.'('.$dateFormatter->format($date).')';
+    }
+
+    /**
+     * @param $dateTime
+     * 
+     * @return string
+     */
+    public function customDateTimeFormat($dateTime)
+    {
+        if (!$dateTime) {
+            return '';
+        }
+        
+        // Định dạng ngày giờ theo kiểu "M/dd hh:mm"
+        return $dateTime->format('n/d H:i');
     }
 }

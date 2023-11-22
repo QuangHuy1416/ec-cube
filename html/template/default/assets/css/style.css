@@ -3261,9 +3261,12 @@ Styleguide 5.2.1
   .ec-imageGrid .ec-imageGrid__img {
     display: table-cell;
     padding: 10px;
-    width: 100px; }
+    width: 100px; 
+    height: 100px; }
     .ec-imageGrid .ec-imageGrid__img img {
-      width: 100%; }
+      width: 100%;
+      height: 100%;
+      object-fit: cover; }
   .ec-imageGrid .ec-imageGrid__content {
     vertical-align: middle;
     display: table-cell; }
@@ -8988,5 +8991,93 @@ Styleguide 22.1
 .pre-scrollable {
   margin-top: 20px;
   max-height: 675px;
+}
+
+@media only screen and (max-width: 740px){
+  .ec-historyListHeader{
+    display: flex;
+    justify-content: space-between;
+    background-color: #efefef;
+    border-radius: 100px;
+    padding: 12px 15px 1px 30px;
+    margin-bottom: 10px;
+  }
+
+  .ec-historyListHeader .ec-historyListHeader__action{
+    margin: 0px;
+  }
+
+  .ec-inlineBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    background: #712cf9;
+    color: #F8F8F8;
+  }
+
+  .ec-inlineBtn > span{ 
+    text-align: center;
+    font-size: 8px;
+  }
+
+  .ec-imageGrid {
+    border-bottom: 1px solid #ccc;
+  }
+
+  .ec-imageGrid , .ec-historyRole .ec-historyRole__detail, .ec-historyRole .ec-historyRole__contents {
+    border-top: none;
+  }
+
+  .ec-pager .ec-pager__item a, .ec-pager .ec-pager__item--active a{
+    padding: 6px 0.5em;
+  }
+
+  .ec-pager .ec-pager__item--active{
+    background-color: #B8BEC4;
+  }
+
+  .ec-page_btn{
+    width: 40px;
+    height: 40px;
+    background-color: #712cf9;
+    color: #F8F8F8;
+    border-radius: 50%;
+  }
+  .ec-pager .ec-pager__item .ec-page_a-item {
+    padding: 1.5px 13px 4px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ec-page_btn > a > span{
+    font-size: 8px;
+    line-height: 40px;
+    margin-left: 4px;
+  }
+
+  /* .ec-page_btn-pre{
+    margin-left: 6px;
+  } */
+}
+
+.ec-pager__go-to-last-page{
+  text-decoration: none;
+  text-align: center;
+}
+
+.ec-pager__go-to-last-page > a{
+  border-radius: 50px;
+  padding: 10px;
+  background: #712cf9;
+  color: #F8F8F8;
+}
+
+.ec-pager__go-to-last-page > a:hover{
+  background-color: #4c0bce;
+  text-decoration: none; 
 }
 /*# sourceMappingURL=maps/style.css.map */
