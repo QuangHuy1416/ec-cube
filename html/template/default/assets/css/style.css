@@ -9055,8 +9055,12 @@ Styleguide 22.1
 
   .ec-page_btn > a > span{
     font-size: 14px;
-    line-height: 40px;
+    line-height: 36px;
     margin-left: 4px;
+  }
+
+  .ec-page_btn > a > span[data-status="page_mypage"]{
+    line-height: 40px;
   }
 }
 

@@ -15,7 +15,8 @@ file that was distributed with this source code.
             <li class="ec-pager__item ec-page_btn">
                 <a class="ec-page_a-item" href="{{ path(
                 app.request.attributes.get('_route'),
-                app.request.query.all|merge({'pageno': pages.first})) }}"><span>{{ 'common.first'|trans }}</span></a></li>
+                app.request.query.all|merge({'pageno': pages.first})) }}">
+                    <span data-status="page_{{ app.request.get('_route')}}">{{ 'common.first'|trans }}</span></a></li>
 
         {% endif %}
 
@@ -24,7 +25,8 @@ file that was distributed with this source code.
             <li class="ec-pager__item ec-page_btn">
                 <a class="ec-page_a-item" href="{{ path(
                 app.request.attributes.get('_route'),
-                app.request.query.all|merge({'pageno': pages.previous})) }}"><span>{{ 'common.prev'|trans }}</span></a></li>
+                app.request.query.all|merge({'pageno': pages.previous})) }}">
+                    <span data-status="page_{{ app.request.get('_route')}}">{{ 'common.prev'|trans }}</span></a></li>
         {% endif %}
 
         {# 1ページリンクが表示されない場合、「...」を表示 #}
@@ -54,7 +56,8 @@ file that was distributed with this source code.
             <li class="ec-pager__item ec-page_btn">
                 <a class="ec-page_a-item" href="{{ path(
                 app.request.attributes.get('_route'),
-                app.request.query.all|merge({'pageno': pages.next})) }}"><span>{{ 'common.next'|trans }}</span></a></li>
+                app.request.query.all|merge({'pageno': pages.next})) }}">
+                    <span data-status="page_{{ app.request.get('_route')}}">{{ 'common.next'|trans }}</span></a></li>
         {% endif %}
 
         {# 最後へ #}
@@ -62,7 +65,8 @@ file that was distributed with this source code.
             <li class="ec-pager__item ec-page_btn">
                 <a class="ec-page_a-item" href="{{ path(
                 app.request.attributes.get('_route'),
-                app.request.query.all|merge({'pageno': pages.last})) }}"><span>{{ 'common.last'|trans }}</span></a></li>
+                app.request.query.all|merge({'pageno': pages.last})) }}">
+                    <span data-status="page_{{ app.request.get('_route')}}">{{ 'common.last'|trans }}</span></a></li>
         {% endif %}
     </ul>
 {% endif %}
