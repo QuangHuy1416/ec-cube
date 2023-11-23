@@ -32,7 +32,7 @@ file that was distributed with this source code.
                             <div class="ec-historyRole__header">
                                 <div class="ec-historyListHeader">
                                     <div class="ec-subHistoryListHeader">
-                                        <p class="ec-historyListHeader__date">{{ Order.order_date|customDateTimeFormat }}</p>
+                                        <p class="ec-historyListHeader__date">{{ Order.customDateTimeFormat(Order.order_date) }}</p>
                                         {#
                                         <dl class="ec-definitions">
                                             <dt>{{ 'front.mypage.order_no'|trans }}</dt>
@@ -44,7 +44,7 @@ file that was distributed with this source code.
                                             {#
                                                 <dt>{{ 'front.mypage.order_status'|trans }}</dt>
                                             #}
-                                                <dd style="color:{{ Order.OrderStatusColor }}">{{ Order.CustomerOrderStatus }}</dd>
+                                                <dd class="ec-status-display" data-status="{{ Order.OrderStatusColor }}">{{ Order.CustomerOrderStatus }}</dd>
                                             </dl>
                                         {% endif %}
                                     </div>

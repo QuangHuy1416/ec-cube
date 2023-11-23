@@ -565,6 +565,25 @@ if (!class_exists('\Eccube\Entity\Order')) {
         }
 
         /**
+         * Method định dạng ngày giờ theo kiểu "M/dd hh:mm"
+         * 
+         * @param $dateTime
+         * 
+         * @return string
+         */
+        public function customDateTimeFormat($dateTime)
+        {
+            if(!$dateTime) {
+                $this->order_date = '';
+                return $this->order_date;
+            }
+            
+            // Định dạng ngày giờ theo kiểu "M/dd hh:mm"
+            $this->order_date = $dateTime->format('n/d H:i');
+            return $this->order_date;
+        }   
+
+        /**
          * Get id.
          *
          * @return int

@@ -9007,15 +9007,21 @@ Styleguide 22.1
     margin: 0px;
   }
 
-  .ec-inlineBtn{
+  .ec-inlineBtn, .ec-pager .ec-pager__item .ec-page_a-item{
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .ec-inlineBtn, .ec-page_btn{
+    background-color: #712cf9;
+    color: #F8F8F8;
     border-radius: 50%;
+  }
+
+  .ec-inlineBtn{
     width: 45px;
     height: 45px;
-    background: #712cf9;
-    color: #F8F8F8;
   }
 
   .ec-inlineBtn > span{ 
@@ -9042,26 +9048,16 @@ Styleguide 22.1
   .ec-page_btn{
     width: 40px;
     height: 40px;
-    background-color: #712cf9;
-    color: #F8F8F8;
-    border-radius: 50%;
   }
   .ec-pager .ec-pager__item .ec-page_a-item {
-    padding: 1.5px 13px 4px 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 0px 13px 4px 10px;
   }
 
   .ec-page_btn > a > span{
-    font-size: 8px;
+    font-size: 14px;
     line-height: 40px;
     margin-left: 4px;
   }
-
-  /* .ec-page_btn-pre{
-    margin-left: 6px;
-  } */
 }
 
 .ec-pager__go-to-last-page{
@@ -9079,5 +9075,25 @@ Styleguide 22.1
 .ec-pager__go-to-last-page > a:hover{
   background-color: #4c0bce;
   text-decoration: none; 
+}
+
+.ec-status-display[data-status="#437ec4"]{
+  color: #437ec4;
+}
+
+.ec-status-display[data-status="#C04949"]{
+  color: #C04949;
+}
+
+.ec-status-display[data-status="#EEB128"]{
+  color: #EEB128;
+}
+
+.ec-status-display[data-status="#25B877"]{
+  color: #25B877;
+}
+
+.ec-status-display[data-status="#A3A3A3"]{
+  color: #A3A3A3;
 }
 /*# sourceMappingURL=maps/style.css.map */
