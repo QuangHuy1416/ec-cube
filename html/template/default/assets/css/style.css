@@ -9013,18 +9013,18 @@ Styleguide 22.1
     align-items: center;
   }
 
-  .ec-inlineBtn, .ec-page_btn{
+  .ec-inlineBtn[data-status="page_mypage"], .ec-page_btn{
     background-color: #712cf9;
     color: #F8F8F8;
     border-radius: 50%;
   }
 
-  .ec-inlineBtn{
+  .ec-inlineBtn[data-status="page_mypage"]{
     width: 45px;
     height: 45px;
   }
 
-  .ec-inlineBtn > span{ 
+  .ec-inlineBtn[data-status="page_mypage"] > span{ 
     text-align: center;
     font-size: 8px;
   }

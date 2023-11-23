@@ -49,7 +49,9 @@ file that was distributed with this source code.
                                         {% endif %}
                                     </div>
                                     <p class="ec-historyListHeader__action">
-                                        <a class="ec-inlineBtn" href="{{ url('mypage_history', {'order_no': Order.order_no}) }}">
+                                        <a class="ec-inlineBtn" 
+                                        data-status="page_{{ app.request.get('_route')}}" 
+                                        href="{{ url('mypage_history', {'order_no': Order.order_no}) }}">
                                             <span>
                                                 {{'front.mypage.view_detail'|trans }}
                                             </span>
