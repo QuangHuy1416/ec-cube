@@ -8703,7 +8703,7 @@ Styleguide 22.1
   }
 
   .ec-shelfGrid__item-image-home{
-    height: 125px;
+    height: 120px;
   }
 
   .ec-shelfGrid .ec-shelfGrid__item{
@@ -8987,6 +8987,23 @@ Styleguide 22.1
 
 .pre-scrollable {
   margin-top: 20px;
-  max-height: 675px;
+  max-height: 660px;
+}
+
+.ec-shelfGrid__content{
+  display: block;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.price02-default-home{
+  margin: 0px 30px;
+  border: 1px solid #33A8D0;
+  border-radius: 10px;
+}
+.price02-default-home:hover{
+  background-color: #000;
+  color: #f8f8f8;
 }
 /*# sourceMappingURL=maps/style.css.map */
