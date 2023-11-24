@@ -27,6 +27,9 @@ file that was distributed with this source code.
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'withdraw' %}active{% endif %}">
             <a href="{{ url('mypage_withdraw') }}">{{ 'front.mypage.nav__withdrow'|trans }}</a>
         </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'withdraw' %}active{% endif %}">
+            <a href="{{ url('mypage_thanks_registration') }}">{{ 'front.mypage.thanks__registration'|trans }}</a>
+        </li>
     </ul>
 </div>
 
