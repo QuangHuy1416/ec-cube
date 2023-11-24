@@ -87,11 +87,11 @@ file that was distributed with this source code.
                                                 <br>{{ orderItem.productClass.classCategory2.className.name }}：{{ orderItem.productClass.classCategory2 }}
                                             {% endif %}
                                         {% endif %}
-                                        <p>{{ orderItem.price_inc_tax|price }}
+                                        <p>{{ orderItem.price_inc_tax|price }} &#8363;
                                             × {{ orderItem.quantity|number_format }}</p>
                                         {% if orderItem.product and orderItem.price_inc_tax != orderItem.productClass.price02IncTax %}
                                             <p class="ec-color-accent">
-                                                {{ 'front.mypage.current_price'|trans }}{{ orderItem.productClass.price02IncTax|price }}</p>
+                                                {{ 'front.mypage.current_price'|trans }}{{ orderItem.productClass.price02IncTax|price }} &#8363;</p>
                                             {% set remessage = true %}
                                         {% endif %}
 
@@ -149,24 +149,24 @@ file that was distributed with this source code.
                 <div class="ec-totalBox">
                     <dl class="ec-totalBox__spec">
                         <dt>{{ 'common.subtotal'|trans }}</dt>
-                        <dd>{{ Order.subtotal|price }}</dd>
+                        <dd>{{ Order.subtotal|price }} &#8363;</dd>
                     </dl>
                     <dl class="ec-totalBox__spec">
                         <dt>{{ 'common.charge'|trans }}</dt>
-                        <dd>{{ Order.charge|price }}</dd>
+                        <dd>{{ Order.charge|price }} &#8363;</dd>
                     </dl>
                     <dl class="ec-totalBox__spec">
                         <dt>{{ 'common.delivery_fee'|trans }}</dt>
-                        <dd>{{ Order.delivery_fee_total|price }}</dd>
+                        <dd>{{ Order.delivery_fee_total|price }} &#8363;</dd>
                     </dl>
                     {% if Order.discount > 0 %}
                         <dl class="ec-totalBox__spec">
                             <dt>{{ 'common.discount'|trans }}</dt>
-                            <dd>{{ (0 - Order.discount)|price }}</dd>
+                            <dd>{{ (0 - Order.discount)|price }} &#8363;</dd>
                         </dl>
                     {% endif %}
                     <div class="ec-totalBox__total">{{ 'common.total'|trans }}<span
-                                class="ec-totalBox__price">{{ Order.payment_total|price }}</span><span
+                                class="ec-totalBox__price">{{ Order.payment_total|price }} &#8363;</span><span
                                 class="ec-totalBox__taxLabel">{{ 'common.tax_include'|trans }}</span></div>
                     {% if stockOrder %}
                         <a href="{{ url('mypage_order', {'order_no': Order.order_no }) }}"
@@ -182,7 +182,7 @@ file that was distributed with this source code.
             </div>
         </div>
         <div class="ec-role">
-            <a href="{{ url('mypage') }}" class="ec-inlineBtn">{{ 'common.back'|trans }}</a>
+            <a href="{{ url('mypage') }}" class="ec-inlineBtn"><span>{{ 'common.back'|trans }}</span></a>
         </div>
     </div>
 {% endblock %}

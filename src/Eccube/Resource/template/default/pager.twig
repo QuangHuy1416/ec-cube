@@ -12,19 +12,21 @@ file that was distributed with this source code.
     <ul class="ec-pager">
         {# 最初へ #}
         {% if pages.firstPageInRange != 1 %}
-            <li class="ec-pager__item">
-                <a href="{{ path(
+            <li class="ec-pager__item ec-page_btn">
+                <a class="ec-page_a-item" href="{{ path(
                 app.request.attributes.get('_route'),
-                app.request.query.all|merge({'pageno': pages.first})) }}">{{ 'common.first'|trans }}</a></li>
+                app.request.query.all|merge({'pageno': pages.first})) }}">
+                    <span data-status="page_{{ app.request.get('_route')}}">{{ 'common.first'|trans }}</span></a></li>
 
         {% endif %}
 
         {# 前へ #}
         {% if pages.previous is defined %}
-            <li class="ec-pager__item">
-                <a href="{{ path(
+            <li class="ec-pager__item ec-page_btn">
+                <a class="ec-page_a-item" href="{{ path(
                 app.request.attributes.get('_route'),
-                app.request.query.all|merge({'pageno': pages.previous})) }}">{{ 'common.prev'|trans }}</a></li>
+                app.request.query.all|merge({'pageno': pages.previous})) }}">
+                    <span data-status="page_{{ app.request.get('_route')}}">{{ 'common.prev'|trans }}</span></a></li>
         {% endif %}
 
         {# 1ページリンクが表示されない場合、「...」を表示 #}
@@ -34,11 +36,11 @@ file that was distributed with this source code.
 
         {% for page in pages.pagesInRange %}
             {% if page == pages.current %}
-                <li class="ec-pager__item--active"><a href="{{ path(
+                <li class="ec-pager__item--active ec-page_btn"><a href="{{ path(
                     app.request.attributes.get('_route'),
                     app.request.query.all|merge({'pageno': page})) }}"> {{ page }} </a></li>
             {% else %}
-                <li class="ec-pager__item"><a href="{{ path(
+                <li class="ec-pager__item ec-page_btn"><a href="{{ path(
                     app.request.attributes.get('_route'),
                     app.request.query.all|merge({'pageno': page})) }}"> {{ page }} </a></li>
             {% endif %}
@@ -51,18 +53,20 @@ file that was distributed with this source code.
 
         {# 次へ #}
         {% if pages.next is defined %}
-            <li class="ec-pager__item">
-                <a href="{{ path(
+            <li class="ec-pager__item ec-page_btn">
+                <a class="ec-page_a-item" href="{{ path(
                 app.request.attributes.get('_route'),
-                app.request.query.all|merge({'pageno': pages.next})) }}">{{ 'common.next'|trans }}</a></li>
+                app.request.query.all|merge({'pageno': pages.next})) }}">
+                    <span data-status="page_{{ app.request.get('_route')}}">{{ 'common.next'|trans }}</span></a></li>
         {% endif %}
 
         {# 最後へ #}
         {% if pages.last != pages.lastPageInRange %}
-            <li class="ec-pager__item">
-                <a href="{{ path(
+            <li class="ec-pager__item ec-page_btn">
+                <a class="ec-page_a-item" href="{{ path(
                 app.request.attributes.get('_route'),
-                app.request.query.all|merge({'pageno': pages.last})) }}">{{ 'common.last'|trans }}</a></li>
+                app.request.query.all|merge({'pageno': pages.last})) }}">
+                    <span data-status="page_{{ app.request.get('_route')}}">{{ 'common.last'|trans }}</span></a></li>
         {% endif %}
     </ul>
 {% endif %}

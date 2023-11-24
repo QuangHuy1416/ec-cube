@@ -31,19 +31,31 @@ file that was distributed with this source code.
 
                             <div class="ec-historyRole__header">
                                 <div class="ec-historyListHeader">
-                                    <p class="ec-historyListHeader__date">{{ Order.order_date|date_sec }}</p>
-                                    <dl class="ec-definitions">
-                                        <dt>{{ 'front.mypage.order_no'|trans }}</dt>
-                                        <dd>{{ Order.order_no }}</dd>
-                                    </dl>
-                                    {% if (BaseInfo.option_mypage_order_status_display) %}
+                                    <div class="ec-subHistoryListHeader">
+                                        <p class="ec-historyListHeader__date">{{ Order.customDateTimeFormat(Order.order_date) }}</p>
+                                        {#
                                         <dl class="ec-definitions">
-                                            <dt>{{ 'front.mypage.order_status'|trans }}</dt>
-                                            <dd>{{ Order.CustomerOrderStatus }}</dd>
+                                            <dt>{{ 'front.mypage.order_no'|trans }}</dt>
+                                            <dd>{{ Order.order_no }}</dd>
                                         </dl>
-                                    {% endif %}
-                                    <p class="ec-historyListHeader__action"><a class="ec-inlineBtn"
-                                                                               href="{{ url('mypage_history', {'order_no': Order.order_no}) }}">{{ 'front.mypage.view_detail'|trans }}</a>
+                                        #}
+                                        {% if (BaseInfo.option_mypage_order_status_display) %}
+                                            <dl class="ec-definitions">
+                                            {#
+                                                <dt>{{ 'front.mypage.order_status'|trans }}</dt>
+                                            #}
+                                                <dd class="ec-status-display" data-status="{{ Order.OrderStatusColor }}">{{ Order.CustomerOrderStatus }}</dd>
+                                            </dl>
+                                        {% endif %}
+                                    </div>
+                                    <p class="ec-historyListHeader__action">
+                                        <a class="ec-inlineBtn" 
+                                        data-status="page_{{ app.request.get('_route')}}" 
+                                        href="{{ url('mypage_history', {'order_no': Order.order_no}) }}">
+                                            <span>
+                                                {{'front.mypage.view_detail'|trans }}
+                                            </span>
+                                        </a>
                                     </p>
                                 </div>
                             </div>
@@ -65,7 +77,7 @@ file that was distributed with this source code.
                                             {% if OrderItem.class_category_name1 is not empty %}
                                                 / {{ OrderItem.class_category_name2 }}
                                             {% endif %}
-                                            <p class="ec-historyRole__detailPrice">{{ OrderItem.price_inc_tax|price }}
+                                            <p class="ec-historyRole__detailPrice">{{ OrderItem.price_inc_tax|price }} &#8363;
                                                 × {{ OrderItem.quantity }}</p>
                                         </div>
                                     </div>
@@ -77,6 +89,9 @@ file that was distributed with this source code.
                 <div class="ec-pagerRole">
                     {% include "pager.twig" with {'pages': pagination.paginationData} %}
                 </div>
+                <div class="ec-pager__go-to-last-page"><a href="{{ path(
+                    app.request.attributes.get('_route'),
+                    app.request.query.all|merge({'pageno': pagination.paginationData.pageCount})) }}">{{ 'front.mypage.go_to_last_page'|trans }}</a></div>
             {% else %}
                 <p class="ec-para-normal">{{ 'front.mypage.history_not_found'|trans }}</p>
             {% endif %}
