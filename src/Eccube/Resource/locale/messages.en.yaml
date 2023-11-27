@@ -73,6 +73,14 @@ common.signup: Sign up
 common.forgot_login: Unable to sign in?
 common.customer_address_count_is_over: You already have max number of addresses (%eccube_deliv_addr_max% items). If you want to add a new one, please delete or overwrite the item(s) you have on the list.
 common.search_keyword: Enter keywords
+common.thanks_registration_header: give thanks!
+common.thanks_registration_step: step
+common.thanks_registration_step_01: 贈る相手を決める
+common.thanks_registration_message_title: 登録キャンセルしますが、よろしいですか？
+common.thanks_registration_yes: はい
+common.thanks_registration_no: いいえ
+common.search_results: 検索結果
+common.search_customer_keyword: LDAPを調べて入力してください
 common.delete_confirm: Do you want to continue?
 common.pagetop: Page top
 common.name.prefix: ''

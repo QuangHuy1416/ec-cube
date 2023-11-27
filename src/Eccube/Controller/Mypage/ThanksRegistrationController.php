@@ -14,72 +14,43 @@
 namespace Eccube\Controller\Mypage;
 
 use Eccube\Controller\AbstractController;
-use Eccube\Entity\Master\CustomerStatus;
+use Eccube\Repository\CustomerRepository;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
-use Eccube\Repository\Master\CustomerStatusRepository;
 use Eccube\Form\Type\SearchCustomerBlockType;
-use Eccube\Service\MailService;
-use Eccube\Util\StringUtil;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Eccube\Util\FormUtil;
+
 
 class ThanksRegistrationController extends AbstractController
 {
     /**
-     * @var MailService
+     * @var CustomerRepository
      */
-    protected $mailService;
-
-    /**
-     * @var CustomerStatusRepository
-     */
-    protected $customerStatusRepository;
-
-    /**
-     * @var TokenStorage
-     */
-    protected $tokenStorage;
-
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
+    protected $customerRepository;
 
     /**
      * ThanksRegistrationController constructor.
      *
-     * @param MailService $mailService
-     * @param CustomerStatusRepository $customerStatusRepository
-     * @param TokenStorageInterface $tokenStorage
+     * @param CustomerRepository $customerRepository
      */
     public function __construct(
-        MailService $mailService,
-        CustomerStatusRepository $customerStatusRepository,
-        TokenStorageInterface $tokenStorage,
-        RequestStack $requestStack
+        CustomerRepository $customerRepository
     ) {
-        $this->mailService = $mailService;
-        $this->customerStatusRepository = $customerStatusRepository;
-        $this->tokenStorage = $tokenStorage;
-        $this->requestStack = $requestStack;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
      * 退会画面.
      *
      * @Route("/mypage/thanks_registration", name="mypage_thanks_registration")
-     * @Template("Mypage/gift.twig")
+     * @Template("Mypage/thanks_registration.twig")
      */
     public function index(Request $request)
     {
-        $builder = $this->formFactory
-            ->createNamedBuilder('', SearchCustomerBlockType::class)
-            ->setMethod('GET');
+        $builder = $this->formFactory->createBuilder(SearchCustomerBlockType::class);
 
         $event = new EventArgs(
             [
@@ -88,15 +59,37 @@ class ThanksRegistrationController extends AbstractController
             $request
         );
 
-        $this->eventDispatcher->dispatch(EccubeEvents::FRONT_BLOCK_SEARCH_PRODUCT_INDEX_INITIALIZE, $event);
+        $this->eventDispatcher->dispatch(EccubeEvents::FRONT_BLOCK_SEARCH_CUSTOMER_INDEX_INITIALIZE, $event);
+        
+        $searchForm = $builder->getForm();
 
-        $request = $this->requestStack->getMasterRequest();
+        if ('POST' === $request->getMethod()) {
 
-        $form = $builder->getForm();
-        $form->handleRequest($request);
+            $searchForm->handleRequest($request);
+
+            if ($searchForm->isValid()) {
+                $searchData = $searchForm->getData();
+            } else {
+                return [
+                    'searchForm' => $searchForm->createView(),
+                    'customers' => [],
+                    'has_errors' => true,
+                ];
+            }
+        } else {
+            $viewData = FormUtil::getViewData($searchForm);
+            $searchData = FormUtil::submitAndGetData($searchForm, $viewData);
+        }
+
+        // Get query
+        $qb = $this->customerRepository->getQueryBuilderBySearchData($searchData);
+
+        // Get customer by key search
+        $customer = $qb->getQuery()->getResult();
 
         return [
-            'form' => $form->createView(),
+            'searchForm' => $searchForm->createView(),
+            'customers' => $customer
         ];
     }
 }

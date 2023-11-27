@@ -15,21 +15,39 @@ namespace Eccube\Form\Type;
 
 use Eccube\Repository\CustomerRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Eccube\Common\EccubeConfig;
 use Symfony\Component\Form\AbstractType;
+
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 class SearchCustomerBlockType extends AbstractType
 {
+    
+    /**
+     * @var EccubeConfig
+     */
+    protected $eccubeConfig;
+
     /**
      * @var CustomerRepository
      */
     protected $customerRepository;
 
-    public function __construct(CustomerRepository $customerRepository)
+    /**
+     * SearchCustomerBlockType constructor.
+     *
+     * @param CustomerRepository $customerRepository
+     * @param EccubeConfig $eccubeConfig
+     */
+    public function __construct(CustomerRepository $customerRepository, EccubeConfig $eccubeConfig)
     {
         $this->customerRepository = $customerRepository;
+        $this->eccubeConfig = $eccubeConfig;
     }
 
     /**
@@ -37,11 +55,11 @@ class SearchCustomerBlockType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', SearchType::class, [
+        $builder->add('multi', TextType::class, [
+            'label' => 'admin.customer.multi_search_label',
             'required' => false,
-            'label' => 'common.search_keyword',
-            'attr' => [
-                'maxlength' => 50,
+            'constraints' => [
+                new Assert\Length(['max' => $this->eccubeConfig['eccube_stext_len']]),
             ],
         ]);
     }
