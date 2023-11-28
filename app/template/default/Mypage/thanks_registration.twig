@@ -1,0 +1,93 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) LOCKON CO.,LTD. All Rights Reserved.
+
+http://www.lockon.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'thanks_registration' %}
+
+{% set body_class = 'mypage' %}
+
+{% block main %}
+    <div class="gift-content">
+        <div class="gift d-flex flex-column">
+            <div class="gift-header d-flex flex-column justify-content-center">
+                <div class="header-thanks d-flex flex-column justify-content-center">
+                    <span class="text-uppercase font-weight-bold">{{'common.thanks_registration_header'|trans}}</span>
+                </div>
+                <div class="header-step d-flex flex-column justify-content-center font-weight-light">
+                    <lable class="text-uppercase">{{'common.thanks_registration_step'|trans}} 1</lable>
+                    <span>{{'common.thanks_registration_step_01'|trans}}</span>
+                </div>
+            </div>
+            <div class="gift-body">
+                {# Hiển thị form tìm kiếm#}
+                <form method="POST" class="searchform" action="{{ path('mypage_thanks_registration') }}">
+                    <div class="ec-headerSearch__keyword">
+                        <div class="form-group has-search">
+                            <i class="fa fa-search form-control-feedback"></i>
+                            {{ form_widget(searchForm.multi, {'id': null, 'attr': {'class': 'form-group input-search-customer', 'placeholder' : 'common.search_customer_keyword' }} ) }}
+                            {{ form_errors(searchForm.multi) }}
+                        </div>
+                    </div>
+                </form>
+                {# Hiển thị form tìm kiếm#}
+                <div class="box-customer" style="padding-bottom: 84px;">
+                    <div class="box-customer-title text-left">
+                        <label class="font-weight-light">{{'common.search_results'|trans}}</label>
+                    </div>
+                    <div id="list_customer" style="max-height: 430px;">
+                        <form action="#" id="frm-customer-gift" method="post">
+                            <input type="hidden" name="customer_id" id="customer_id">
+                            <div class="list-customer-gift">
+                                {% for Customer in customers %}
+                                    <div class="item btn-box-shadow-inset d-flex justify-content-center align-items-center text-white" data-id="{{Customer.id}}">
+                                        <span>{{Customer.name01}}&nbsp;{{Customer.name02}}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gift-footer fixed-bottom d-flex flex-column">
+            <div class="gift-footer-btn">
+                <div class="btn-black d-flex justify-content-center align-items-center text-decoration-none">Go back one step</div>
+                <a href="#" 
+                    class="btn-open-modal d-flex justify-content-center align-items-center text-white text-decoration-none" 
+                    data-toggle="modal" data-target="#modal_redirect_mypage">
+                    Cancel registration
+                </a>
+            </div>
+            <div class="gift-footer-background">
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="modal_redirect_mypage" tabindex="-1" aria-labelledby="redirectMypageModalLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-custom" role="document">
+    <div class="modal-content" style="height: auto; max-height: 547px; overflow-y: hidden;">
+      <div class="modal-header border-bottom-0 lex-column">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+        <div class="modal-body font-weight-light">
+          <p>{{'common.thanks_registration_message_title'|trans}}</p>
+        </div>
+        <div class="gift-modal-footer">
+          <a href="#" class="btn-go-mypage d-flex justify-content-center align-items-center text-white text-decoration-none">{{'common.thanks_registration_yes'|trans}}</a>
+          <a href="#" class="btn-black d-flex justify-content-center align-items-center text-white text-decoration-none" data-dismiss="modal" aria-label="Close">{{'common.thanks_registration_no'|trans}}</a>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

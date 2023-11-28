@@ -75,7 +75,7 @@ file that was distributed with this source code.
         </div>
     {% endif %}
 
-    <div class="ec-layoutRole__contents">
+    <div class="ec-layoutRole__contents" data-status="page_{{ app.request.get('_route') }}">
         {# Layout: SIDE_LEFT #}
         {% if Layout.SideLeft %}
             <div class="ec-layoutRole__left">

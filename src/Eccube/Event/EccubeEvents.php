@@ -403,6 +403,12 @@ final class EccubeEvents
     const FRONT_BLOCK_SEARCH_PRODUCT_INDEX_INITIALIZE = 'front.block.search.product.index.initialize';
 
     /**
+     * Block/ThanksRegistrationController
+     */
+    // index
+    const FRONT_BLOCK_SEARCH_CUSTOMER_INDEX_INITIALIZE = 'front.block.search.customer.index.initialize';
+
+    /**
      * Mypage/ChangeController
      */
     // index
